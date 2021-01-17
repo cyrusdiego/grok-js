@@ -8,7 +8,7 @@ type Document = {
     summary?: string;
 };
 
-async function search(searchString: string) {
+async function search(searchString: string): Promise<(string | undefined)[]> {
     const res = await axios.get('https://www.google.com/search', {
         params: {
             q: searchString,
@@ -16,16 +16,12 @@ async function search(searchString: string) {
     });
     const root = parse(res.data);
     const links = root.querySelectorAll('a');
-    for (const link of links) {
-        const matches = link.getAttribute('href')?.match(/https:\/\/.*/g);
-        if (matches === null || matches === undefined) {
-            continue;
-        }
 
-        for (const match of matches) {
-            console.log(match);
-        }
+    if (links.length < 1) {
+        return [];
     }
+
+    return links.map(link => link.getAttribute('href'));
 }
 
 const urls: string[] = [
@@ -48,5 +44,6 @@ async function scrape(url: string) {
 }
 
 (async () => {
-    await search('javascript mozilla');
+    console.log(await search('javascript mozilla'));
+    console.log(await search('javascrpt array deconstruction'));
 })();
