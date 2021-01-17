@@ -1,12 +1,13 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import inlineDecorator from './inlineDecorator';
+import { grok } from './api';
+import inlineDecoratorType from './inlineDecoratorType';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-    const decorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
+    const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
         const editor = selectionEvent.textEditor;
 
         const decorations: vscode.DecorationOptions[] = [];
@@ -26,20 +27,23 @@ export function activate(context: vscode.ExtensionContext) {
                 } else {
                     selectedText += lines[i].substr(0, selection.end.character);
                 }
-            }
-            // TODO: use selected text
+			}
+			console.log(selectedText);
+
+            // TODO: get global offset from Daniel
+            const result = grok(text, { start: 49, end: 108 }, false);
 
             decorations.push({
                 range: new vscode.Range(firstLine, 0, firstLine, lines[firstLine].length),
                 renderOptions: {
                     after: {
-                        contentText: 'Brief description',
+                        contentText: result,
                     },
                 },
             });
         }
 
-        editor.setDecorations(inlineDecorator, decorations);
+        editor.setDecorations(inlineDecoratorType, decorations);
     });
 
     // Use the console to output diagnostic information (console.log) and errors (console.error)
@@ -57,7 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     context.subscriptions.push(disposable);
-    context.subscriptions.push(decorator);
+    context.subscriptions.push(inlineDecorator);
 }
 
 // this method is called when your extension is deactivated
