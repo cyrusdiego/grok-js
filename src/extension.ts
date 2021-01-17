@@ -42,7 +42,7 @@ type State = {
 function decorateInline(): State {
     const activeEditor = vscode.window.activeTextEditor;
 
-    // Start analyzing only if there's an active text editor with a javascript file open
+    // Do not analyze if there is no file open or file open is not a javascript file
     if (activeEditor === undefined || !activeEditor.document.fileName.endsWith('.js')) {
         return { startOffset: 0, endOffset: 0, grokClassification: { output: '', code: '' } };
     }
@@ -116,11 +116,9 @@ export function activate(context: vscode.ExtensionContext) {
     // On start-up
     ({ startOffset, endOffset, grokClassification } = decorateInline());
 
-    // On configurations change
-    const inlineDecoratorSettings = vscode.workspace.onDidChangeConfiguration((configurationChangeEvent) => {
-        if (configurationChangeEvent.affectsConfiguration('grokJS')) {
-            ({ startOffset, endOffset, grokClassification } = decorateInline());
-        }
+    // On switch tab groups
+    const inlineDecoratorActiveTextEditor = vscode.window.onDidChangeActiveTextEditor((_) => {
+        ({ startOffset, endOffset, grokClassification } = decorateInline());
     });
 
     // On highlight changes
@@ -139,8 +137,8 @@ export function activate(context: vscode.ExtensionContext) {
         },
     });
 
+    context.subscriptions.push(inlineDecoratorActiveTextEditor);
     context.subscriptions.push(inlineDecoratorHighlight);
-    context.subscriptions.push(inlineDecoratorSettings);
     context.subscriptions.push(hoverRegistration);
 }
 
