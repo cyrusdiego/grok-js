@@ -27,8 +27,8 @@
         "inline": "Expression Statement",
         "title": "Expression Statement",
         "linkText": "Working with Expression Statement",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators",
+        "description": "Like most expressions, assignments like x = y have a return value. It can be retrieved by e.g. assigning the expression or logging it:"
     },
     "Directive": { "inline": "Directive", "title": "Directive", "linkText": "Working with Directive", "link": "TODO", "description": "" },
     "BlockStatement": {
