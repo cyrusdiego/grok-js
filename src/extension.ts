@@ -8,6 +8,7 @@ import { grok } from './api';
 import inlineDecoratorType from './inlineDecoratorType';
 import { languages, TextDocument, Position, ExtensionContext, CancellationToken, MarkdownString } from 'vscode';
 import { hoverWidgetContent } from './hoverWidget';
+import { getDocItem } from './docs';
 
 
 function get_offset (pos: vscode.Position, lines: string[]) {
@@ -58,6 +59,8 @@ export function activate(context: vscode.ExtensionContext) {
 
         // Get classification from AST
         const result = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset);
+        // TODO handle errors
+        const inlineOutput = getDocItem(result);
 
         if (single_click) end = start
         decorations.push({
@@ -65,7 +68,7 @@ export function activate(context: vscode.ExtensionContext) {
             range: new vscode.Range(start.line, 0, end.line, lines[end.line].length),
             renderOptions: {
                 after: {
-                    contentText: result,
+                    contentText: inlineOutput.inline,
                 },
             },
         });
