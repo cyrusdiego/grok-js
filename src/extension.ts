@@ -108,8 +108,6 @@ function getSettings(): Settings {
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-    console.log('activate');
-
     // Global state to store what is currently highlighted
     let startOffset = 0;
     let endOffset = 0;
@@ -117,14 +115,6 @@ export function activate(context: vscode.ExtensionContext) {
 
     // On start-up
     ({ startOffset, endOffset, grokClassification } = decorateInline());
-
-    // On configurations change
-    const inlineDecoratorSettings = vscode.workspace.onDidChangeConfiguration((configurationChangeEvent) => {
-        console.log('configuration event');
-        if (configurationChangeEvent.affectsConfiguration('grokJS.allowImportExportEverywhere')) {
-            ({ startOffset, endOffset, grokClassification } = decorateInline());
-        }
-    });
 
     // On switch tab groups
     const inlineDecoratorActiveTextEditor = vscode.window.onDidChangeActiveTextEditor((_) => {
@@ -147,7 +137,6 @@ export function activate(context: vscode.ExtensionContext) {
         },
     });
 
-    context.subscriptions.push(inlineDecoratorSettings);
     context.subscriptions.push(inlineDecoratorActiveTextEditor);
     context.subscriptions.push(inlineDecoratorHighlight);
     context.subscriptions.push(hoverRegistration);
