@@ -33,7 +33,7 @@
                     "grokJS.ecmaVersion": {
                         "type": ["string", "integer"],
                         "default": "latest",
-                        "enum": [3,5,6,7,8,9,10,11,12,"latest"],
+                        "enum": [2015,2016,2017,2018,2019,2020,2021,"latest"],
                         "description": "Indicates the ECMAScript version to parse"
                     },
                     "grokJS.sourceType": {
