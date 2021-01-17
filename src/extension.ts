@@ -10,7 +10,12 @@ import { languages, TextDocument, Position, ExtensionContext, CancellationToken,
 import { hoverWidgetContent, showHoverWidget } from './hoverWidget';
 import { getDocItem } from './docs';
 
-function getOffset(pos: vscode.Position, lines: string[]) {
+/**
+ * Calculates a multiline string offset from a {line: number, column: number} data structure.
+ * @param pos {line: number, column: number} data structure
+ * @param lines multiline string split by newlines
+ */
+function getOffset(pos: vscode.Position, lines: string[]): number {
     let offset = 0;
     for (let i = 0; i < pos.line; i++) {
         offset += lines[i].length + 1; // +1 accounts for removed newline
@@ -19,13 +24,30 @@ function getOffset(pos: vscode.Position, lines: string[]) {
     return offset + pos.character;
 }
 
+/**
+ * Defintion of the extension global state
+ */
 type State = {
     startOffset: number;
     endOffset: number;
     grokClassification: Result;
 };
 
-function decorateInline(activeEditor: TextEditor, settings: Settings): State {
+/**
+ * Writes out the inline classification from grok beside the currently highlighted line of code.
+ * If nothing is highlighted, the entire line is sent over to grok to be analyzed.
+ * @param activeEditor taken from vscode.window
+ * @param settings user settings for grok
+ */
+function decorateInline(): State {
+    const activeEditor = vscode.window.activeTextEditor;
+
+    // Start analyzing only if there's an active text editor with a javascript file open
+    if (activeEditor === undefined || !activeEditor.document.fileName.endsWith('.js')) {
+        return { startOffset: 0, endOffset: 0, grokClassification: { output: '', code: '' } };
+    }
+
+    const settings = getSettings();
     const selection = activeEditor.selection;
     const text = activeEditor.document.getText();
     const lines = text.split('\n');
@@ -66,7 +88,10 @@ function decorateInline(activeEditor: TextEditor, settings: Settings): State {
     return { startOffset, endOffset, grokClassification };
 }
 
-function get_settings(): Settings {
+/**
+ * Helper to get user settings for grokJS
+ */
+function getSettings(): Settings {
     const config = vscode.workspace.getConfiguration();
 
     return {
@@ -86,29 +111,20 @@ export function activate(context: vscode.ExtensionContext) {
     // Global state to store what is currently highlighted
     let startOffset = 0;
     let endOffset = 0;
-    let settings = get_settings();
+    let settings = getSettings();
     let grokClassification = { output: '', code: '' };
 
+    // On start-up
+    ({ startOffset, endOffset, grokClassification } = decorateInline());
+
     // On configurations change
-    vscode.workspace.onDidChangeConfiguration((event) => {
-        settings = get_settings();
-        if (editor !== undefined && editor.document.fileName.endsWith('.js')) {
-            ({ startOffset, endOffset, grokClassification } = decorateInline(editor, settings));
-        }
+    const inlineDecoratorSettings = vscode.workspace.onDidChangeConfiguration((_) => {
+        ({ startOffset, endOffset, grokClassification } = decorateInline());
     });
 
-    // On start-up
-    const editor = vscode.window.activeTextEditor;
-    if (editor !== undefined && editor.document.fileName.endsWith('.js')) {
-        ({ startOffset, endOffset, grokClassification } = decorateInline(editor, settings));
-    }
-
     // On highlight changes
-    const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((_) => {
-        const editor = vscode.window.activeTextEditor;
-        if (editor !== undefined && editor.document.fileName.endsWith('.js')) {
-            ({ startOffset, endOffset, grokClassification } = decorateInline(editor, settings));
-        }
+    const inlineDecoratorHighlight = vscode.window.onDidChangeTextEditorSelection((_) => {
+        ({ startOffset, endOffset, grokClassification } = decorateInline());
     });
 
     const hoverRegistration = languages.registerHoverProvider('javascript', {
@@ -122,7 +138,8 @@ export function activate(context: vscode.ExtensionContext) {
         },
     });
 
-    context.subscriptions.push(inlineDecorator);
+    context.subscriptions.push(inlineDecoratorHighlight);
+    context.subscriptions.push(inlineDecoratorSettings);
     context.subscriptions.push(hoverRegistration);
 }
 
