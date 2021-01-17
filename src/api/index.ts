@@ -7,6 +7,13 @@ export interface Selection {
   end: number;
 }
 
+export enum Error {
+  PARSE_FAILED = "parse_failed",
+  WALK_FAILED = "walk_failed",
+  NO_NODE_FOUND = "no_node_found",
+}
+
+export type Result = string | Error;
 // TODO build a memoize function
 // let cache = {};
 
@@ -15,7 +22,7 @@ export function grok(
   src: string,
   selection: Selection,
   isHighlighting: boolean
-): string {
+): Result {
   // Parse the source code into an AST
   // TODO add more options?
   const opts: acorn.Options = {
@@ -27,7 +34,7 @@ export function grok(
   } catch (error) {
     // TODO return something else
     console.log("Failed to parse AST.");
-    return "ERROR";
+    return Error.PARSE_FAILED;
   }
 
   let found: walk.Found<acorn.Node> | undefined;
@@ -46,12 +53,10 @@ export function grok(
   } catch (error) {
     // TODO return something else
     console.log("Failed to walk AST.");
-    return "ERROR";
+    return Error.WALK_FAILED;
   }
-  // TODO this could be undefined
-  const subTree: acorn.Node = (found as walk.Found<acorn.Node>).node;
 
-  return subTree.type;
+  return found?.node?.type || Error.NO_NODE_FOUND;
 }
 
 function anyNode(type: any, node: any): boolean {
@@ -66,7 +71,7 @@ function test(selection: Selection, label: string, isHighlighting: boolean) {
   console.log(`"${src.substring(selection.start, selection.end)}"`);
   console.log("=============================================");
   console.log(selection);
-  console.log(grok(src, selection, false));
+  console.log(grok(src, selection, isHighlighting));
   console.log("\n\n");
 }
 
