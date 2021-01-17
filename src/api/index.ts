@@ -24,11 +24,6 @@ export interface Settings {
 
 
 export type Result = string | Error;
-// TODO build a memoize function
-// let cache = {};
-// function memoizedGrok(): any {
-//     if
-// }
 
 // TODO add logic to tell a user what is more specific than what they selected when they highlight
 
@@ -65,6 +60,9 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean,
         } else {
             // Not highlighting anything so find the least specific node after selection.start
             found = walk.findNodeAfter(ast, selection.start, anyNode);
+            if (found && found.node && found.node.start > selection.end) {
+                return Error.NO_NODE_FOUND;
+            }
         }
     } catch (error) {
         // TODO return something else
