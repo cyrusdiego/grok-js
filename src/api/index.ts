@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import * as acorn from 'acorn';
 import * as walk from 'acorn-walk';
 
@@ -16,6 +15,11 @@ export enum Error {
 export type Result = string | Error;
 // TODO build a memoize function
 // let cache = {};
+// function memoizedGrok(): any {
+//     if
+// }
+
+// TODO add logic to tell a user what is more specific than what they selected when they highlight
 
 // TODO don't return any but rather a proper type
 export function grok(src: string, selection: Selection, isHighlighting: boolean): Result {
@@ -37,7 +41,7 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean)
     try {
         if (isHighlighting) {
             // Highlighting, so find the most specific node in selection
-            if ((found = walk.findNodeAt(ast, selection.start, selection.end, anyNode))) {
+            if (!(found = walk.findNodeAt(ast, selection.start, selection.end, anyNode))) {
                 found = walk.findNodeAround(ast, selection.start, anyNode);
             }
         } else {
@@ -56,24 +60,3 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean)
 function anyNode(type: any, node: any): boolean {
     return true;
 }
-
-// TODO remove this is just for testing
-function test(selection: Selection, label: string, isHighlighting: boolean) {
-    const src = fs.readFileSync('./src/api/example.js', 'utf8');
-    console.log(label);
-    console.log('=============================================');
-    console.log(`"${src.substring(selection.start, selection.end)}"`);
-    console.log('=============================================');
-    console.log(selection);
-    console.log(grok(src, selection, isHighlighting));
-    console.log('\n\n');
-}
-
-// TODO better tests
-test({ start: 78, end: 85 }, 'Rest element exact highlight', true);
-test({ start: 77, end: 85 }, 'Rest element missed highlight', true);
-test({ start: 49, end: 108 }, 'Rest element no highlight', false);
-
-test({ start: 597, end: 609 }, 'Multi-line no highlight', false);
-test({ start: 613, end: 638 }, 'Multi-line no highlight', false);
-test({ start: 597, end: 609 }, 'Multi-line no highlight', false);

@@ -4,24 +4,29 @@
  * ------------------------------------------------------------------------------------------ */
 
 import * as path from 'path';
-import { workspace, ExtensionContext, window, Range, Position } from 'vscode';
 
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
 
+import * as vscode from 'vscode';
+import inlineDecorator from './inlineDecorator';
+
 let client: LanguageClient;
 
-export function activate(context: ExtensionContext) {
-	const outputChannel = window.createOutputChannel('Test');
+// this method is called when your extension is activated
+// your extension is activated the very first time the command is executed
+export function activate(context: vscode.ExtensionContext) {
 
-	window.onDidChangeTextEditorSelection((e) => {
+	const outputChannel = vscode.window.createOutputChannel('Test');
+
+	vscode.window.onDidChangeTextEditorSelection((e) => {
 
 		if (e.kind?.toString() === undefined) return;
 		
-		let start = new Position(e.textEditor.selection.start.line, e.textEditor.selection.start.character)
+		let start = new vscode.Position(e.textEditor.selection.start.line, e.textEditor.selection.start.character)
 
-		let end = new Position(e.textEditor.selection.end.line, e.textEditor.selection.end.character)
+		let end = new vscode.Position(e.textEditor.selection.end.line, e.textEditor.selection.end.character)
 		 
-		let range = new Range(start, end);
+		let range = new vscode.Range(start, end);
 		let highlight =  e.textEditor.document.getText(range);
 		
 		let start_offset = e.textEditor.document.getText().indexOf(highlight)
@@ -30,42 +35,60 @@ export function activate(context: ExtensionContext) {
 		outputChannel.appendLine(e.textEditor.document.getText().substr(start_offset, end_offset));
 		// TODO: Add delay to ensue click or highlight
 	});
-	
-	//TODO: remove
 
-    // The server is implemented in node
-    let serverModule = context.asAbsolutePath(path.join('server', 'out', 'server.js'));
-    // The debug options for the server
-    // --inspect=6009: runs the server in Node's Inspector mode so VS Code can attach to the server for debugging
-    let debugOptions = { execArgv: ['--nolazy', '--inspect=6009'] };
 
-    // If the extension is launched in debug mode then the debug server options are used
-    // Otherwise the run options are used
-    let serverOptions: ServerOptions = {
-        run: { module: serverModule, transport: TransportKind.ipc },
-        debug: {
-            module: serverModule,
-            transport: TransportKind.ipc,
-            options: debugOptions,
-        },
-    };
+    const decorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
+        const editor = selectionEvent.textEditor;
 
-    // Options to control the language client
-    let clientOptions: LanguageClientOptions = {
-        // Register the server for plain text documents
-        documentSelector: [{ scheme: 'file', language: 'plaintext' }],
-        synchronize: {
-            // Notify the server about file changes to '.clientrc files contained in the workspace
-            fileEvents: workspace.createFileSystemWatcher('**/.clientrc'),
-        },
-    };
+        const decorations: vscode.DecorationOptions[] = [];
+        const text = editor.document.getText();
 
-    // Create the language client and start the client.
-    client = new LanguageClient('grokJS', 'grokJS', serverOptions, clientOptions);
+        const lines = text.split('\n');
 
-    // Start the client. This will also launch the server
-	client.start();
-	context.subscriptions.push();
+        for (const selection of selectionEvent.selections) {
+            const firstLine = selection.start.line;
+
+            let selectedText = '';
+            for (let i = selection.start.line; i <= selection.end.line; i++) {
+                if (i === selection.start.line) {
+                    selectedText += lines[i].substr(selection.start.character, lines[i].length);
+                } else if (i < selection.end.line) {
+                    selectedText += lines[i];
+                } else {
+                    selectedText += lines[i].substr(0, selection.end.character);
+                }
+            }
+            // TODO: use selected text
+
+            decorations.push({
+                range: new vscode.Range(firstLine, 0, firstLine, lines[firstLine].length),
+                renderOptions: {
+                    after: {
+                        contentText: 'Brief description',
+                    },
+                },
+            });
+        }
+
+        editor.setDecorations(inlineDecorator, decorations);
+    });
+
+    // Use the console to output diagnostic information (console.log) and errors (console.error)
+    // This line of code will only be executed once when your extension is activated
+    console.log('Congratulations, your extension "grok-js" is now active!');
+
+    // The command has been defined in the package.json file
+    // Now provide the implementation of the command with registerCommand
+    // The commandId parameter must match the command field in package.json
+    let disposable = vscode.commands.registerCommand('grok-js.helloWorld', () => {
+        // The code you place here will be executed every time your command is executed
+
+        // Display a message box to the user
+        vscode.window.showInformationMessage('Hello World from grok-js!');
+    });
+
+    context.subscriptions.push(disposable);
+    context.subscriptions.push(decorator);
 }
 
 export function deactivate(): Thenable<void> | undefined {
