@@ -13,15 +13,14 @@ export enum Error {
 }
 
 export interface Settings {
-    ecmaversion?: any,
-    sourcetype?: any,
-    allowreserved?: boolean,
-    allowreturnoutsidefunction?: boolean,
-    allowimportexporteverywhere?: boolean,
-    allowawaitoutsidefunction?: boolean,
-    allowhashbang?:boolean
+    ecmaversion?: any;
+    sourcetype?: any;
+    allowreserved?: boolean;
+    allowreturnoutsidefunction?: boolean;
+    allowimportexporteverywhere?: boolean;
+    allowawaitoutsidefunction?: boolean;
+    allowhashbang?: boolean;
 }
-
 
 export interface Result {
     output: string | Error;
@@ -41,15 +40,14 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean,
         allowReturnOutsideFunction: acorn_settings.allowreturnoutsidefunction,
         allowImportExportEverywhere: acorn_settings.allowimportexporteverywhere,
         allowAwaitOutsideFunction: acorn_settings.allowawaitoutsidefunction,
-        allowHashBang: acorn_settings.allowhashbang
+        allowHashBang: acorn_settings.allowhashbang,
     };
-    
+
     let ast: acorn.Node = {} as acorn.Node;
     try {
         ast = acorn.parse(src, opts);
     } catch (error) {
         // TODO return something else
-        console.log('Failed to parse AST.');
         return { output: Error.PARSE_FAILED, code: '' };
     }
 
@@ -69,7 +67,6 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean,
         }
     } catch (error) {
         // TODO return something else
-        console.log('Failed to walk AST.');
         return { output: Error.WALK_FAILED, code: '' };
     }
 

@@ -1,12 +1,24 @@
 {
-    "Identifier": { "inline": "Identifier", "title": "Identifier", "linkText": "Working with Identifier", "link": "", "description": "" },
-    "Literal": { "inline": "Literal", "title": "Literal", "linkText": "Working with Literal", "link": "", "description": "" },
-    "RegExpLiteral": {
-        "inline": "Reg Exp Literal",
-        "title": "Reg Exp Literal",
-        "linkText": "Working with Reg Exp Literal",
+    "Identifier": {
+        "inline": "Identifier",
+        "title": "Identifier",
+        "linkText": "Working with Identifier",
         "link": "https://developer.mozilla.org/en-US/docs/Glossary/Identifier",
         "description": "An identifier is a sequence of characters in the code that identifies a variable, function, or property."
+    },
+    "Literal": {
+        "inline": "Literal",
+        "title": "Literal",
+        "linkText": "Working with Literal",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#literals",
+        "description": "Literals represent values in JavaScript. These are fixed values—not variables—that you literally provide in your script."
+    },
+    "RegExpLiteral": {
+        "inline": "RegExp Literal",
+        "title": "RegExp Literal",
+        "linkText": "Working with RegExp Literal",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+        "description": "The RegExp object is used for matching text with a pattern."
     },
     "Function": {
         "inline": "Function",
@@ -27,9 +39,15 @@
         "title": "Expression Statement",
         "linkText": "Working with Expression Statement",
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators",
-        "description": "Like most expressions, assignments like x = y have a return value. It can be retrieved by e.g. assigning the expression or logging it:"
+        "description": "An expression is any valid unit of code that resolves to a value."
     },
-    "Directive": { "inline": "Directive", "title": "Directive", "linkText": "Working with Directive", "link": "TODO", "description": "" },
+    "Directive": {
+        "inline": "Directive",
+        "title": "Directive",
+        "linkText": "Working with Directive",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode",
+        "description": "A directive from the directive prologue of a script or function. The directive property is the raw string source of the directive without quotes."
+    },
     "BlockStatement": {
         "inline": "Block Statement",
         "title": "Block Statement",
@@ -112,14 +130,14 @@
         "title": "Switch Case",
         "linkText": "Working with Switch Case",
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch",
-        "description": ""
+        "description": "An individual piece of functionality that may potentially be executed by a switch statement."
     },
     "ThrowStatement": {
         "inline": "Throw Statement",
         "title": "Throw Statement",
         "linkText": "Working with Throw Statement",
-        "link": "",
-        "description": "The switch statement evaluates an expression, matching the expression's value to a case clause, and executes statements associated with that case, as well as statements in cases that follow the matching case."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw",
+        "description": "The throw statement throws a user-defined exception. Execution of the current function will stop (the statements after throw won't be executed), and control will be passed to the first catch block in the call stack. If no catch block exists among caller functions, the program will terminate."
     },
     "TryStatement": {
         "inline": "Try Statement",
@@ -168,7 +186,7 @@
         "title": "Declaration",
         "linkText": "Working with Declaration",
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements",
-        "description": "JavaScript applications consist of statements with an appropriate syntax. A single statement may span multiple lines. Multiple statements may occur on a single line if each statement is separated by a semicolon. This isn't a keyword, but a group of keywords."
+        "description": "JavaScript applications consist of statements and declarations. Declarations are statements in which a value is assigned to a variable"
     },
     "FunctionDeclaration": {
         "inline": "Function Declaration",
@@ -181,22 +199,22 @@
         "inline": "Variable Declaration",
         "title": "Variable Declaration",
         "linkText": "Working with Variable Declaration",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
-        "description": "The let statement declares a block-scoped local variable, optionally initializing it to a value."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements#declarations",
+        "description": "The let, var, and const statements declare a variable and optionally initialize it to a value. Let and const declare a block-scoped local variable while var declares a function-scoped or globally-scoped variable."
     },
     "VariableDeclarator": {
         "inline": "Variable Declarator",
         "title": "Variable Declarator",
         "linkText": "Working with Variable Declarator",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
-        "description": "The var statement declares a function-scoped or globally-scoped variable, optionally initializing it to a value."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements#declarations",
+        "description": "A Variable Declarator is similar to assignment except that it binds the value to a new variable."
     },
     "Expression": {
         "inline": "Expression",
         "title": "Expression",
         "linkText": "Working with Expression",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators",
-        "description": "TODO"
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#expressions",
+        "description": "An expression is any valid unit of code that resolves to a value."
     },
     "ThisExpression": {
         "inline": "This Expression",
@@ -219,13 +237,19 @@
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer",
         "description": "Objects can be initialized using new Object(), Object.create(), or using the literal notation (initializer notation). An object initializer is a comma-delimited list of zero or more pairs of property names and associated values of an object, enclosed in curly braces ({})."
     },
-    "Property": { "inline": "Property", "title": "Property", "linkText": "Working with Property", "link": "", "description": "" },
+    "Property": {
+        "inline": "Property",
+        "title": "Property",
+        "linkText": "Working with Property",
+        "link": "https://developer.mozilla.org/en-US/docs/Glossary/property/JavaScript",
+        "description": "A JavaScript property is a characteristic of an object, often describing attributes associated with a data structure."
+    },
     "FunctionExpression": {
         "inline": "Function Expression",
         "title": "Function Expression",
         "linkText": "Working with Function Expression",
-        "link": "https://developer.mozilla.org/en-US/docs/Glossary/property/JavaScript",
-        "description": "A JavaScript property is a characteristic of an object, often describing attributes associated with a data structure."
+        "link": "https://developer.mozilla.org/en-US/docs/web/JavaScript/Reference/Operators/function",
+        "description": "he function keyword can be used to define a function inside an expression."
     },
     "UnaryExpression": {
         "inline": "Unary Expression",
@@ -238,15 +262,15 @@
         "inline": "Update Expression",
         "title": "Update Expression",
         "linkText": "Working with Update Expression",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#increment_and_decrement",
+        "description": "Postfix/prefix increment and postfix/prefix decrement operators."
     },
     "BinaryExpression": {
         "inline": "Binary Expression",
         "title": "Binary Expression",
         "linkText": "Working with Binary Expression",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#arithmetic_operators",
+        "description": "A unary operation is an operation with two operands."
     },
     "AssignmentExpression": {
         "inline": "Assignment Expression",
@@ -259,15 +283,15 @@
         "inline": "Logical Expression",
         "title": "Logical Expression",
         "linkText": "Working with Logical Expression",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#binary_logical_operators",
+        "description": "Logical operators are typically used with boolean (logical) values, and when they are, they return a boolean value."
     },
     "MemberExpression": {
         "inline": "Member Expression",
         "title": "Member Expression",
         "linkText": "Working with Member Expression",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#binary_logical_operators",
-        "description": "Logical operators are typically used with boolean (logical) values, and when they are, they return a boolean value."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "description": "Member expressions provide access to an object's properties by using the dot notation or the bracket notation."
     },
     "ConditionalExpression": {
         "inline": "Conditional Expression",
@@ -294,15 +318,15 @@
         "inline": "Sequence Expression",
         "title": "Sequence Expression",
         "linkText": "Working with Sequence Expression",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comma_Operator",
+        "description": "A comma-seperated sequence of expressions."
     },
     "Pattern": {
         "inline": "Pattern",
         "title": "Pattern",
         "linkText": "Working with Pattern",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions",
-        "description": "Regular expressions are patterns used to match character combinations in strings. In JavaScript, regular expressions are also objects. These patterns are used with the exec() and test() methods of RegExp, and with the match(), matchAll(), replace(), replaceAll(), search(), and split() methods of String. This chapter describes JavaScript regular expressions."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment",
+        "description": "The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables."
     },
     "ForOfStatement": {
         "inline": "For Of Statement",
@@ -311,7 +335,13 @@
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of",
         "description": "The for...of statement creates a loop iterating over iterable objects, including: built-in String, Array, array-like objects (e.g., arguments or NodeList), TypedArray, Map, Set, and user-defined iterables. It invokes a custom iteration hook with statements to be executed for the value of each distinct property of the object."
     },
-    "Super": { "inline": "Super", "title": "Super", "linkText": "Working with Super", "link": "", "description": "" },
+    "Super": {
+        "inline": "Super",
+        "title": "Super",
+        "linkText": "Working with Super",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+        "description": "The super keyword is used to access and call functions on an object's parent."
+    },
     "SpreadElement": {
         "inline": "Spread Element",
         "title": "Spread Element",
@@ -337,43 +367,43 @@
         "inline": "Template Literal",
         "title": "Template Literal",
         "linkText": "Working with Template Literal",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template",
-        "description": "The HTML Content Template (<template>) element is a mechanism for holding HTML that is not to be rendered immediately when a page is loaded but may be instantiated subsequently during runtime using JavaScript."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals",
+        "description": "Template literals are string literals allowing embedded expressions. You can use multi-line strings and string interpolation features with them. They were called \"template strings\" in prior editions of the ES2015 specification."
     },
     "TaggedTemplateExpression": {
         "inline": "Tagged Template Expression",
         "title": "Tagged Template Expression",
         "linkText": "Working with Tagged Template Expression",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#description",
+        "description": "The default function just concatenates the parts into a single string. If there is an expression preceding the template literal (tag here), this is called a tagged template. In that case, the tag expression (usually a function) gets called with the template literal, which you can then manipulate before outputting."
     },
     "TemplateElement": {
         "inline": "Template Element",
         "title": "Template Element",
         "linkText": "Working with Template Element",
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals",
-        "description": "The default function just concatenates the parts into a single string. If there is an expression preceding the template literal (tag here), this is called a tagged template. In that case, the tag expression (usually a function) gets called with the template literal, which you can then manipulate before outputting."
+        "description": "Component piece of a template literal."
     },
     "AssignmentProperty": {
         "inline": "Assignment Property",
         "title": "Assignment Property",
         "linkText": "Working with Assignment Property",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring",
+        "description": "Property to variable assignment pair in an object destructuring."
     },
     "ObjectPattern": {
         "inline": "Object Pattern",
         "title": "Object Pattern",
         "linkText": "Working with Object Pattern",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring",
+        "description": "The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from an object, into distinct variables."
     },
     "ArrayPattern": {
         "inline": "Array Pattern",
         "title": "Array Pattern",
         "linkText": "Working with Array Pattern",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#array_destructuring",
+        "description": "The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from an array, into distinct variables."
     },
     "RestElement": {
         "inline": "Rest Element",
@@ -386,8 +416,8 @@
         "inline": "Assignment Pattern",
         "title": "Assignment Pattern",
         "linkText": "Working with Assignment Pattern",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters",
+        "description": "Assign default values to parameters of a function of properties of an object."
     },
     "Class": {
         "inline": "Class",
@@ -428,22 +458,22 @@
         "inline": "Meta Property",
         "title": "Meta Property",
         "linkText": "Working with Meta Property",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new.target",
+        "description": "The new.target pseudo-property lets you detect whether a function or constructor was called using the new operator. In constructors and functions invoked using the new operator, new.target returns a reference to the constructor or function. In normal function calls, new.target is undefined."
     },
     "ModuleDeclaration": {
         "inline": "Module Declaration",
         "title": "Module Declaration",
         "linkText": "Working with Module Declaration",
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
-        "description": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules"
+        "description": "Declare the usage of a module."
     },
     "ModuleSpecifier": {
         "inline": "Module Specifier",
         "title": "Module Specifier",
         "linkText": "Working with Module Specifier",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import",
-        "description": "The static import statement is used to import read only live bindings which are exported by another module. Imported modules are in strict mode whether you declare them as such or not. The import statement cannot be used in embedded scripts unless such script has a type=\"module\". Bindings imported are called live bindings because they are updated by the module that exported the binding."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
+        "description": "An import or export statement for modules."
     },
     "ImportDeclaration": {
         "inline": "Import Declaration",
@@ -491,15 +521,15 @@
         "inline": "Anonymous Default Exported Function Declaration",
         "title": "Anonymous Default Exported Function Declaration",
         "linkText": "Working with Anonymous Default Exported Function Declaration",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export",
+        "description": "An anonymous default exported function declaration."
     },
     "AnonymousDefaultExportedClassDeclaration": {
         "inline": "Anonymous Default Exported Class Declaration",
         "title": "Anonymous Default Exported Class Declaration",
         "linkText": "Working with Anonymous Default Exported Class Declaration",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export",
+        "description": "An anonymous default exported class declaration."
     },
     "ExportDefaultDeclaration": {
         "inline": "Export Default Declaration",
@@ -512,8 +542,8 @@
         "inline": "Export All Declaration",
         "title": "Export All Declaration",
         "linkText": "Working with Export All Declaration",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export",
+        "description": "Exports everything."
     },
     "AwaitExpression": {
         "inline": "Await Expression",
