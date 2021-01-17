@@ -26,8 +26,8 @@ export function activate(context: vscode.ExtensionContext) {
                 } else {
                     selectedText += lines[i].substr(0, selection.end.character);
                 }
-			}
-			// TODO: use selected text
+            }
+            // TODO: use selected text
 
             decorations.push({
                 range: new vscode.Range(firstLine, 0, firstLine, lines[firstLine].length),
