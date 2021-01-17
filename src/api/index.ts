@@ -1,5 +1,6 @@
 import * as acorn from 'acorn';
 import * as walk from 'acorn-walk';
+import { on } from 'events';
 
 export interface Selection {
     start: number;
@@ -15,7 +16,10 @@ export enum Error {
 export interface Result {
     output: string | Error;
     code: string;
+    children: acorn.Node[];
 }
+
+type ParentNode = Record<string, acorn.Node[]> & acorn.Node;
 
 // TODO add logic to tell a user what is more specific than what they selected when they highlight
 
@@ -33,10 +37,10 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean)
     } catch (error) {
         // TODO return something else
         console.log('Failed to parse AST.');
-        return { output: Error.PARSE_FAILED, code: '' };
+        return { output: Error.PARSE_FAILED, code: '', children: [] };
     }
 
-    let found: walk.Found<acorn.Node> | undefined;
+    let found: walk.Found<ParentNode> | undefined;
     try {
         if (isHighlighting) {
             // Highlighting, so find the most specific node in selection
@@ -47,24 +51,48 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean)
             // Not highlighting anything so find the least specific node after selection.start
             found = walk.findNodeAfter(ast, selection.start, anyNode);
             if (found && found.node && found.node.start > selection.end) {
-                return { output: Error.NO_NODE_FOUND, code: '' };
+                return { output: Error.NO_NODE_FOUND, code: '', children: [] };
             }
         }
     } catch (error) {
         // TODO return something else
         console.log('Failed to walk AST.');
-        return { output: Error.WALK_FAILED, code: '' };
+        return { output: Error.WALK_FAILED, code: '', children: [] };
     }
 
     if (!found || !found.node) {
-        return { output: Error.NO_NODE_FOUND, code: '' };
+        return { output: Error.NO_NODE_FOUND, code: '', children: [] };
     }
 
     const finalNode = found.node;
+    const children = getChildren(found);
     const code: string = src.substring(finalNode.start, finalNode.end);
-    return { output: finalNode.type || Error.NO_NODE_FOUND, code };
+    return { output: finalNode.type || Error.NO_NODE_FOUND, code: code, children: children };
 }
 
 function anyNode(type: any, node: any): boolean {
     return true;
+}
+
+function getChildren(found: walk.Found<ParentNode>): acorn.Node[] {
+    const node = found.node;
+
+    // https://stackoverflow.com/questions/38750705/filter-object-properties-by-key-in-es6
+    const children = Object.keys(node)
+        .filter((key: any) => {
+            const item = (node as ParentNode)[key];
+            return isNode(item);
+        })
+        .reduce((obj, key) => {
+            return {
+                ...obj,
+                [key]: (node as ParentNode)[key],
+            };
+        }, {});
+
+    return children as acorn.Node[];
+}
+
+function isNode(node: any): node is acorn.Node {
+    return node && node.type && node.start && node.end;
 }
