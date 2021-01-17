@@ -19,19 +19,6 @@ export function activate(context: vscode.ExtensionContext) {
         const lines = text.split('\n');
 
         for (const selection of selectionEvent.selections) {
-            const firstLine = selection.start.line;
-
-            let selectedText = '';
-            for (let i = selection.start.line; i <= selection.end.line; i++) {
-                if (i === selection.start.line) {
-                    selectedText += lines[i].substr(selection.start.character, lines[i].length);
-                } else if (i < selection.end.line) {
-                    selectedText += lines[i];
-                } else {
-                    selectedText += lines[i].substr(0, selection.end.character);
-                }
-            }
-
             // Get start and end position
             let start = new vscode.Position(selection.start.line, editor.selection.start.character);
             let end = new vscode.Position(selection.end.line, editor.selection.end.character);
@@ -48,7 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
 
             decorations.push({
                 // Display decorator for the entire line
-                range: new vscode.Range(firstLine, 0, firstLine, lines[firstLine].length),
+                range: new vscode.Range(start.line, 0, end.line, lines[end.line].length),
                 renderOptions: {
                     after: {
                         contentText: result,
