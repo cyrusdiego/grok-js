@@ -4,13 +4,13 @@
  * ------------------------------------------------------------------------------------------ */
 
 import * as vscode from 'vscode';
-import { grok, Settings } from './api';
+import { grok, Result, Settings } from './api';
 import inlineDecoratorType from './inlineDecoratorType';
-import { languages, TextDocument, Position, ExtensionContext, CancellationToken, MarkdownString } from 'vscode';
+import { languages, TextDocument, Position, ExtensionContext, CancellationToken, MarkdownString, Selection, TextEditor } from 'vscode';
 import { hoverWidgetContent, showHoverWidget } from './hoverWidget';
 import { getDocItem } from './docs';
 
-function get_offset (pos: vscode.Position, lines: string[]) {
+function get_offset(pos: vscode.Position, lines: string[]) {
     let offset = 0;
     for (let i = 0; i < pos.line; i++) {
         offset += lines[i].length + 1;
@@ -19,8 +19,50 @@ function get_offset (pos: vscode.Position, lines: string[]) {
     return offset + pos.character;
 }
 
-function get_settings () : Settings {
-    const config = vscode.workspace.getConfiguration ()
+type State = {
+    startOffset: number;
+    endOffset: number;
+    grokClassification: Result;
+};
+
+function decorateInline(activeEditor: TextEditor, settings: Settings): State {
+    const selection = activeEditor.selection;
+    const text = activeEditor.document.getText();
+    const lines = text.split('\n');
+
+    const decorations: vscode.DecorationOptions[] = [];
+
+    // Get start and end position
+    let start = new vscode.Position(selection.start.line, activeEditor.selection.start.character);
+    let end = new vscode.Position(selection.end.line, activeEditor.selection.end.character);
+
+    // Calculate offsets
+    const highlightRange = new vscode.Range(start, end);
+    const highlightedText = activeEditor.document.getText(highlightRange);
+
+    const startOffset = get_offset(start, lines);
+    const endOffset = startOffset + highlightedText.length;
+
+    // Get classification from AST
+    const grokClassification = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset, settings);
+
+    decorations.push({
+        // Display decorator for the entire line
+        range: new vscode.Range(start.line, 0, end.line, lines[end.line].length),
+        renderOptions: {
+            after: {
+                contentText: getDocItem(grokClassification.output).inline,
+            },
+        },
+    });
+
+    activeEditor.setDecorations(inlineDecoratorType, decorations);
+    return { startOffset, endOffset, grokClassification };
+}
+
+function get_settings(): Settings {
+    const config = vscode.workspace.getConfiguration();
+
     return {
         ecmaversion: config.get('grokJS.ecmaVersion'),
         sourcetype: config.get('grokJS.sourceType'),
@@ -29,10 +71,10 @@ function get_settings () : Settings {
         allowimportexporteverywhere: config.get('grokJS.allowImportExportEverywhere'),
         allowawaitoutsidefunction: config.get('grokJS.allowAwaitOutsideFunction'),
         allowhashbang: config.get('grokJS.allowHashBang'),
-    }
+    };
 }
 
- // this method is called when your extension is activated
+// this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
     // Global state to store what is currently highlighted
@@ -41,51 +83,26 @@ export function activate(context: vscode.ExtensionContext) {
     let settings = get_settings();
     let grokClassification = { output: '', code: '' };
 
-    vscode.workspace.onDidChangeConfiguration(event => {
+    // On configurations change
+    vscode.workspace.onDidChangeConfiguration((event) => {
         settings = get_settings();
-    })
-    
-    const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
-        if (selectionEvent?.kind === undefined) return;
-
-        const editor = selectionEvent.textEditor;
-
-        const decorations: vscode.DecorationOptions[] = [];
-        const text = editor.document.getText();
-
-        const lines = text.split('\n');
-        const selection = selectionEvent.selections[0]; // TODO: Verify if this will ever fail
-
-        // Get start and end position
-        let start = new vscode.Position(selection.start.line, editor.selection.start.character);
-        let end = new vscode.Position(selection.end.line, editor.selection.end.character);
-
-        if (start.character === end.character && start.line === end.line) {
-            start = new vscode.Position(start.line, 0);
-            end = new vscode.Position(start.line, lines[start.line].length);
+        if (editor !== undefined && editor.document.fileName.endsWith('.js')) {
+            ({ startOffset, endOffset, grokClassification } = decorateInline(editor, settings));
         }
+    });
 
-        // Calculate offsets
-        const highlightRange = new vscode.Range(start, end);
-        const highlightedText = editor.document.getText(highlightRange);
+    // On start-up
+    const editor = vscode.window.activeTextEditor;
+    if (editor !== undefined && editor.document.fileName.endsWith('.js')) {
+        ({ startOffset, endOffset, grokClassification } = decorateInline(editor, settings));
+    }
 
-        startOffset = get_offset(start, lines);
-        endOffset = startOffset + highlightedText.length;
-
-        // Get classification from AST
-        grokClassification = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset, settings);
-
-        decorations.push({
-            // Display decorator for the entire line
-            range: new vscode.Range(start.line, 0, end.line, lines[end.line].length),
-            renderOptions: {
-                after: {
-                    contentText: getDocItem(grokClassification.output).inline,
-                },
-            },
-        });
-
-        editor.setDecorations(inlineDecoratorType, decorations);
+    // On highlight changes
+    const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((_) => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor !== undefined && editor.document.fileName.endsWith('.js')) {
+            ({ startOffset, endOffset, grokClassification } = decorateInline(editor, settings));
+        }
     });
 
     const hoverRegistration = languages.registerHoverProvider('javascript', {
