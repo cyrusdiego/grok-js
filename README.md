@@ -28,7 +28,7 @@ GrokJS has a number of settings that can be configured. These determine what sty
 
 ## Motivation
 
-Syntax can be a big stumbling block when learning a new language. Even worse, it is often difficult to seperate the syntax and semantics of a piece of code which makes Googling difficult. For example with the line of code below.
+Syntax can be a big stumbling block when learning a new language. Even worse, it is often difficult to separate the syntax and semantics of a piece of code which makes Googling difficult. For example with the line of code below.
 
 ```js
 const [message, setMessage] = useState("Hello world!");

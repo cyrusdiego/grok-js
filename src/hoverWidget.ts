@@ -13,7 +13,6 @@ const docToMarkDown = (title: string, linkText: string, link: string, descriptio
 };
 
 export const getWidgetContent = (result: Result) => {
-    console.log(`results: ${result}`);
     const root = getDocItem(result.output);
     const item = docToMarkDown(root.title, root.linkText, root.link, root.description, result.code);
     let content = [];

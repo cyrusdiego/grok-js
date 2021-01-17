@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { parse } from 'node-html-parser';
-import { inspect } from 'util';
 import * as topics from './docs.default.json';
 
 type Document = {
