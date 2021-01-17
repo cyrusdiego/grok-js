@@ -1,5 +1,8 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+/* --------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
+ * ------------------------------------------------------------------------------------------ */
+
 import * as vscode from 'vscode';
 import inlineDecorator from './inlineDecorator';
 
@@ -27,7 +30,16 @@ export function activate(context: vscode.ExtensionContext) {
                     selectedText += lines[i].substr(0, selection.end.character);
                 }
             }
-            // TODO: use selected text
+			
+			// get start and end position
+			let start = new vscode.Position(editor.selection.start.line, editor.selection.start.character)
+			let end = new vscode.Position(editor.selection.end.line, editor.selection.end.character)
+
+			// get offsets
+			let range = new vscode.Range(start, end);
+			let highlight =  editor.document.getText(range);
+			let start_offset = editor.document.getText().indexOf(highlight)
+			let end_offset = start_offset + highlight.length
 
             decorations.push({
                 range: new vscode.Range(firstLine, 0, firstLine, lines[firstLine].length),
@@ -60,5 +72,4 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(decorator);
 }
 
-// this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate(){}
