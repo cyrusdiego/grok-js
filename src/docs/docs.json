@@ -8,7 +8,7 @@
         "link": "",
         "description": ""
     },
-    "Program": { "inline": "Program", "title": "Program", "linkText": "Working with Program", "link": "", "description": "" },
+    "Program": { "inline": "", "title": "", "linkText": "", "link": "", "description": "" },
     "Function": { "inline": "Function", "title": "Function", "linkText": "Working with Function", "link": "", "description": "" },
     "Statement": { "inline": "Statement", "title": "Statement", "linkText": "Working with Statement", "link": "", "description": "" },
     "ExpressionStatement": {
@@ -518,5 +518,5 @@
     "default": { "inline": "Unknown Expression", "title": "", "linkText": "", "link": "", "description": "" },
     "parse_failed": { "inline": "Invalid Syntax", "title": "", "linkText": "", "link": "", "description": "" },
     "walk_failed": { "inline": "Error!", "title": "", "linkText": "", "link": "", "description": "" },
-    "no_node_found": { "inline": "Couldn't find code to parse", "title": "", "linkText": "", "link": "", "description": "" }
+    "no_node_found": { "inline": "", "title": "", "linkText": "", "link": "", "description": "" }
 }
