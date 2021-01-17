@@ -13,8 +13,6 @@ export interface DocItem {
     description: string;
 }
 
-// TODO memoize loading the json
-
 export function getDocItem(key: string): DocItem {
     return isKeyOf(docs, key) ? docs[key] : docs['default'];
 }

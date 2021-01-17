@@ -5,8 +5,6 @@ import { getDocItem } from './docs';
 import { getWidgetContent, showHoverWidget } from './hoverWidget';
 import inlineDecoratorType from './inlineDecoratorType';
 
-let editor: vscode.TextEditor;
-
 /**
  * Calculates a multiline string offset from a {line: number, column: number} data structure.
  * @param pos {line: number, column: number} data structure
@@ -21,6 +19,11 @@ function getOffset(pos: vscode.Position, lines: string[]): number {
     return offset + pos.character;
 }
 
+/**
+ * Gets code snippet from start and end offset
+ * @param start starting index from beginning of file
+ * @param end  ending index from beginning of file
+ */
 export function getCodeSnippet(start: number, end: number): string {
     const activeEditor = vscode.window.activeTextEditor;
     if (!activeEditor) {
@@ -115,8 +118,10 @@ function getSettings(): Settings {
     };
 }
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+/**
+ * This method is called when your extension is activated
+ * @param context
+ */
 export function activate(context: vscode.ExtensionContext) {
     // Global state to store what is currently highlighted
     let startOffset = 0;
@@ -136,9 +141,11 @@ export function activate(context: vscode.ExtensionContext) {
         ({ startOffset, endOffset, grokClassification } = decorateInline());
     });
 
+    // On hover over text
     const hoverRegistration = languages.registerHoverProvider('javascript', {
         provideHover(document: TextDocument, position: Position, _) {
             const hoverOffset = document.offsetAt(position);
+            // Only show widget if hovering over highlighted text
             if (startOffset <= hoverOffset && hoverOffset <= endOffset && showHoverWidget(grokClassification.output)) {
                 const widgetContent = getWidgetContent(grokClassification);
                 return widgetContent;
