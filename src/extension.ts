@@ -14,14 +14,23 @@ export function activate(context: vscode.ExtensionContext) {
 
         const lines = text.split('\n');
 
-        for (let i = 0; i < lines.length; i++) {
-			// Skip empty lines, otherwise invalid Range will be created
-			if (lines[i].length === 0) {
-                continue;
-            }
+        for (const selection of selectionEvent.selections) {
+            const firstLine = selection.start.line;
+
+            let selectedText = '';
+            for (let i = selection.start.line; i <= selection.end.line; i++) {
+                if (i === selection.start.line) {
+                    selectedText += lines[i].substr(selection.start.character, lines[i].length);
+                } else if (i < selection.end.line) {
+                    selectedText += lines[i];
+                } else {
+                    selectedText += lines[i].substr(0, selection.end.character);
+                }
+			}
+			// TODO: use selected text
 
             decorations.push({
-                range: new vscode.Range(i, 0, i, lines[i].length),
+                range: new vscode.Range(firstLine, 0, firstLine, lines[firstLine].length),
                 renderOptions: {
                     after: {
                         contentText: 'Brief description',
