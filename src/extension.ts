@@ -75,7 +75,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     // On highlight changes
-    const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
+    const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((_) => {
         const editor = vscode.window.activeTextEditor;
         if (editor !== undefined) {
             ({ startOffset, endOffset, grokClassification } = decorateInline(editor));
