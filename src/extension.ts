@@ -12,22 +12,23 @@ export function activate(context: vscode.ExtensionContext) {
         const decorations: vscode.DecorationOptions[] = [];
         const text = editor.document.getText();
 
-		const lines = text.split('\n');
-		
-		for (const line of lines) {
-			console.log(line);
-		}
+        const lines = text.split('\n');
 
         for (let i = 0; i < lines.length; i++) {
+			// Skip empty lines, otherwise invalid Range will be created
+			if (lines[i].length === 0) {
+                continue;
+            }
+
             decorations.push({
-				range: new vscode.Range(i, Number.MIN_SAFE_INTEGER, i, Number.MAX_SAFE_INTEGER),
-				renderOptions: {
-					after: {
-						contentText: 'John Cena',
-					}
-				}
+                range: new vscode.Range(i, 0, i, lines[i].length),
+                renderOptions: {
+                    after: {
+                        contentText: 'Brief description',
+                    },
+                },
             });
-		}
+        }
 
         editor.setDecorations(inlineDecorator, decorations);
     });
@@ -46,8 +47,8 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showInformationMessage('Hello World from grok-js!');
     });
 
-	context.subscriptions.push(disposable);
-	context.subscriptions.push(decorator);
+    context.subscriptions.push(disposable);
+    context.subscriptions.push(decorator);
 }
 
 // this method is called when your extension is deactivated
