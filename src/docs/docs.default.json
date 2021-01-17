@@ -8,7 +8,6 @@
         "link": "https://developer.mozilla.org/en-US/docs/Glossary/Identifier",
         "description": "An identifier is a sequence of characters in the code that identifies a variable, function, or property."
     },
-    "Program": { "inline": "Program", "title": "Program", "linkText": "Working with Program", "link": "TODO", "description": "" },
     "Function": {
         "inline": "Function",
         "title": "Function",
