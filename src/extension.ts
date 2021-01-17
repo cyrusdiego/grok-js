@@ -76,4 +76,8 @@ export function deactivate(): Thenable<void> | undefined {
         return undefined;
     }
     return client.stop();
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 290c79fa87f2ed61d805ca889817acc6e23d5de0
