@@ -25,6 +25,34 @@ if __name__ == "__main__":
         with open(src) as f:
             grab(f, doc_items)
 
+    doc_items['default'] = {}
+    doc_items['default']['inline'] = "TODO"
+    doc_items['default']['title'] = "TODO"
+    doc_items['default']['linkText'] = "TODO"
+    doc_items['default']['link'] = ""
+    doc_items['default']['description'] = ""
+
+    doc_items['parse_failed'] = {}
+    doc_items['parse_failed']['inline'] = "TODO"
+    doc_items['parse_failed']['title'] = "TODO"
+    doc_items['parse_failed']['linkText'] = "TODO"
+    doc_items['parse_failed']['link'] = ""
+    doc_items['parse_failed']['description'] = ""
+
+    doc_items['walk_failed'] = {}
+    doc_items['walk_failed']['inline'] = "TODO"
+    doc_items['walk_failed']['title'] = "TODO"
+    doc_items['walk_failed']['linkText'] = "TODO"
+    doc_items['walk_failed']['link'] = ""
+    doc_items['walk_failed']['description'] = ""
+
+    doc_items['no_node_found'] = {}
+    doc_items['no_node_found']['inline'] = "TODO"
+    doc_items['no_node_found']['title'] = "TODO"
+    doc_items['no_node_found']['linkText'] = "TODO"
+    doc_items['no_node_found']['link'] = ""
+    doc_items['no_node_found']['description'] = ""
+
     with open("../docs.default.json", 'w') as fout:
         doc_items = json.dumps(doc_items)
         fout.write(doc_items)
