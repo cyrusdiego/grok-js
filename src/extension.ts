@@ -10,10 +10,10 @@ import { languages, TextDocument, Position, ExtensionContext, CancellationToken,
 import { hoverWidgetContent, showHoverWidget } from './hoverWidget';
 import { getDocItem } from './docs';
 
-function get_offset(pos: vscode.Position, lines: string[]) {
+function getOffset(pos: vscode.Position, lines: string[]) {
     let offset = 0;
     for (let i = 0; i < pos.line; i++) {
-        offset += lines[i].length + 1;
+        offset += lines[i].length + 1; // +1 accounts for removed newline
     }
 
     return offset + pos.character;
@@ -36,15 +36,21 @@ function decorateInline(activeEditor: TextEditor, settings: Settings): State {
     let start = new vscode.Position(selection.start.line, activeEditor.selection.start.character);
     let end = new vscode.Position(selection.end.line, activeEditor.selection.end.character);
 
+    // If there is no highlight, send the entire line
+    if (start.character === end.character && start.line === end.line) {
+        start = new vscode.Position(start.line, 0);
+        end = new vscode.Position(start.line, lines[start.line].length);
+    }
+
     // Calculate offsets
     const highlightRange = new vscode.Range(start, end);
     const highlightedText = activeEditor.document.getText(highlightRange);
 
-    const startOffset = get_offset(start, lines);
+    const startOffset = getOffset(start, lines);
     const endOffset = startOffset + highlightedText.length;
 
     // Get classification from AST
-    const grokClassification = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset, settings);
+    const grokClassification = grok(text, { start: startOffset, end: endOffset }, startOffset !== endOffset, settings);
 
     decorations.push({
         // Display decorator for the entire line
