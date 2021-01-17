@@ -1,3 +1,5 @@
+import { Alert } from '@material-ui/lab';
+
 // Array destructuring (skipping elements, rest)
 let [first, second, third, , ...rest] = [1, 2, 3, 4, 5, 6];
 
@@ -33,3 +35,4 @@ console.log(
         return 1;
     })()
 );
+
