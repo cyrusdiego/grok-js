@@ -21,18 +21,18 @@ export function activate(context: ExtensionContext) {
 
 		let end = e.textEditor.selection.end.character
 
+		// for line click, not highlighting
 		if (start === end) {
 			let current_line = window.activeTextEditor?.selection.active.line == undefined ? "0" : window.activeTextEditor?.selection.active.line.toString()
 			outputChannel.appendLine(current_line)
 			return
 		}
-
-		
-
-
+	
 		let document = e.textEditor.document.getText();
 
 		outputChannel.appendLine(document.substring(start, end))
+
+		// TODO: Add delay to ensue click or highlight
 	});
 	
 	//TODO: remove
