@@ -29,7 +29,6 @@ export function activate(context: ExtensionContext) {
 		}
 	
 		let document = e.textEditor.document.getText();
-
 		outputChannel.appendLine(document.substring(start, end))
 
 		// TODO: Add delay to ensue click or highlight
