@@ -8,6 +8,7 @@ export interface Selection {
 }
 
 // TODO build a memoize function
+// let cache = {};
 
 // TODO don't return any but rather a proper type
 export function grok(
@@ -18,7 +19,7 @@ export function grok(
   // Parse the source code into an AST
   // TODO add more options?
   const opts: acorn.Options = {
-    ecmaVersion: 2015,
+    ecmaVersion: "latest",
   };
   let ast: acorn.Node = {} as acorn.Node;
   try {
@@ -44,9 +45,10 @@ export function grok(
     }
   } catch (error) {
     // TODO return something else
-    console.log("Failed to parse AST.");
+    console.log("Failed to walk AST.");
     return "ERROR";
   }
+  // TODO this could be undefined
   const subTree: acorn.Node = (found as walk.Found<acorn.Node>).node;
 
   return subTree.type;
@@ -69,9 +71,10 @@ function test(selection: Selection, label: string, isHighlighting: boolean) {
 }
 
 // TODO better tests
-test({ start: 78, end: 85 }, "Rest element", false);
-test({ start: 272, end: 302 }, "Arrow function", false);
-test({ start: 530, end: 548 }, "Function", false);
-test({ start: 381, end: 394 }, "Identifier", false);
-test({ start: 509, end: 510 }, "Binary and literal", false);
-test({ start: 383, end: 510 }, "Mid spread", false);
+test({ start: 78, end: 85 }, "Rest element exact highlight", true);
+test({ start: 77, end: 85 }, "Rest element missed highlight", true);
+test({ start: 49, end: 108 }, "Rest element no highlight", false);
+
+test({ start: 597, end: 609 }, "Multi-line no highlight", false);
+test({ start: 613, end: 638 }, "Multi-line no highlight", false);
+test({ start: 597, end: 609 }, "Multi-line no highlight", false);
