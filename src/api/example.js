@@ -2,13 +2,13 @@
 let [first, second, third, , ...rest] = [1, 2, 3, 4, 5, 6];
 
 // Object destructuring (defaults, alternate key names)
-let { alpha: myVar = "hello world", bravo } = { alpha: "A", bravo: "B" };
+let { alpha: myVar = 'hello world', bravo } = { alpha: 'A', bravo: 'B' };
 
 // Arrow functions
 let myFunc = (param) => console.log(param);
 
 // Ternary
-let msg = isTrue ? "True" : "Not True";
+let msg = isTrue ? 'True' : 'Not True';
 
 // Spread
 let myArray = [...[1, 2, 3], ...[4, 5, 6]];
@@ -23,13 +23,13 @@ console.log(1 + 2);
 
 // Function
 async function aFunc() {
-  let a = 4;
-  return a;
+    let a = 4;
+    return a;
 }
 
 // Multi-line
 console.log(
-  (() => {
-    return 1;
-  })()
+    (() => {
+        return 1;
+    })()
 );
