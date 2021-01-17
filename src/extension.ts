@@ -4,13 +4,13 @@
  * ------------------------------------------------------------------------------------------ */
 
 import * as vscode from 'vscode';
-import { grok } from './api';
+import { grok, Settings } from './api';
 import inlineDecoratorType from './inlineDecoratorType';
 import { languages, TextDocument, Position, ExtensionContext, CancellationToken, MarkdownString } from 'vscode';
 import { hoverWidgetContent, showHoverWidget } from './hoverWidget';
 import { getDocItem } from './docs';
 
-function get_offset(pos: vscode.Position, lines: string[]) {
+function get_offset (pos: vscode.Position, lines: string[]) {
     let offset = 0;
     for (let i = 0; i < pos.line; i++) {
         offset += lines[i].length + 1;
@@ -19,15 +19,32 @@ function get_offset(pos: vscode.Position, lines: string[]) {
     return offset + pos.character;
 }
 
-// this method is called when your extension is activated
+function get_settings () : Settings {
+    const config = vscode.workspace.getConfiguration ()
+    return {
+        ecmaversion: config.get('grokJS.ecmaVersion'),
+        sourcetype: config.get('grokJS.sourceType'),
+        allowreserved: config.get('grokJS.allowReserved'),
+        allowreturnoutsidefunction: config.get('grokJS.allowReturnOutsideFunction'),
+        allowimportexporteverywhere: config.get('grokJS.allowImportExportEverywhere'),
+        allowawaitoutsidefunction: config.get('grokJS.allowAwaitOutsideFunction'),
+        allowhashbang: config.get('grokJS.allowHashBang'),
+    }
+}
+
+ // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
     // Global state to store what is currently highlighted
     let startOffset = 0;
     let endOffset = 0;
-    let single_click = false;
+    let settings = get_settings();
     let grokClassification = { output: '', code: '' };
 
+    vscode.workspace.onDidChangeConfiguration(event => {
+        settings = get_settings();
+    })
+    
     const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
         if (selectionEvent?.kind === undefined) return;
 
@@ -56,9 +73,8 @@ export function activate(context: vscode.ExtensionContext) {
         endOffset = startOffset + highlightedText.length;
 
         // Get classification from AST
-        grokClassification = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset);
+        grokClassification = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset, settings);
 
-        if (single_click) end = start;
         decorations.push({
             // Display decorator for the entire line
             range: new vscode.Range(start.line, 0, end.line, lines[end.line].length),

@@ -12,6 +12,17 @@ export enum Error {
     NO_NODE_FOUND = 'no_node_found',
 }
 
+export interface Settings {
+    ecmaversion?: any,
+    sourcetype?: any,
+    allowreserved?: boolean,
+    allowreturnoutsidefunction?: boolean,
+    allowimportexporteverywhere?: boolean,
+    allowawaitoutsidefunction?: boolean,
+    allowhashbang?:boolean
+}
+
+
 export interface Result {
     output: string | Error;
     code: string;
@@ -20,13 +31,19 @@ export interface Result {
 // TODO add logic to tell a user what is more specific than what they selected when they highlight
 
 // TODO don't return any but rather a proper type
-export function grok(src: string, selection: Selection, isHighlighting: boolean): Result {
+export function grok(src: string, selection: Selection, isHighlighting: boolean, acorn_settings: Settings): Result {
     // Parse the source code into an AST
     // TODO add more options?
     const opts: acorn.Options = {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
+        ecmaVersion: acorn_settings.ecmaversion,
+        sourceType: acorn_settings.sourcetype,
+        allowReserved: acorn_settings.allowreserved,
+        allowReturnOutsideFunction: acorn_settings.allowreturnoutsidefunction,
+        allowImportExportEverywhere: acorn_settings.allowimportexporteverywhere,
+        allowAwaitOutsideFunction: acorn_settings.allowawaitoutsidefunction,
+        allowHashBang: acorn_settings.allowhashbang
     };
+    
     let ast: acorn.Node = {} as acorn.Node;
     try {
         ast = acorn.parse(src, opts);
