@@ -15,6 +15,11 @@ export enum Error {
 export type Result = string | Error;
 // TODO build a memoize function
 // let cache = {};
+// function memoizedGrok(): any {
+//     if
+// }
+
+// TODO add logic to tell a user what is more specific than what they selected when they highlight
 
 // TODO don't return any but rather a proper type
 export function grok(src: string, selection: Selection, isHighlighting: boolean): Result {
@@ -36,7 +41,7 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean)
     try {
         if (isHighlighting) {
             // Highlighting, so find the most specific node in selection
-            if ((found = walk.findNodeAt(ast, selection.start, selection.end, anyNode))) {
+            if (!(found = walk.findNodeAt(ast, selection.start, selection.end, anyNode))) {
                 found = walk.findNodeAround(ast, selection.start, anyNode);
             }
         } else {
