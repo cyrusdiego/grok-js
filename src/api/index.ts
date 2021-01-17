@@ -49,7 +49,6 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean,
         ast = acorn.parse(src, opts);
     } catch (error) {
         // TODO return something else
-        console.log('Failed to parse AST.');
         return { output: Error.PARSE_FAILED, code: '' };
     }
 
@@ -69,7 +68,6 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean,
         }
     } catch (error) {
         // TODO return something else
-        console.log('Failed to walk AST.');
         return { output: Error.WALK_FAILED, code: '' };
     }
 
