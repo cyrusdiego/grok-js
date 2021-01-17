@@ -31,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
             const endOffset = startOffset + highlightedText.length;
 
             // Get classification from AST
-            const result = grok(text, { start: startOffset, end: endOffset }, false);
+            const result = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset);
 
             decorations.push({
                 // Display decorator for the entire line
