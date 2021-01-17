@@ -46,7 +46,7 @@ async function getMozillaLink(searchString: string): Promise<string | undefined>
     return undefined;
 }
 
-async function scrape(url: string) {
+async function scrape(url: string): Promise<Document> {
     const res = await axios.get(url);
     const root = parse(res.data);
 
@@ -69,9 +69,13 @@ async function scrape(url: string) {
         const mozillaLink = await getMozillaLink(`javascript ${title}`);
         if (mozillaLink !== undefined) {
             const doc = await scrape(mozillaLink);
-            
+            if (doc.title === '') {
+                console.error(`Could not find docs for ${title}`);
+            }
+            (topics as any)[key].link = doc.source;
+            (topics as any)[key].description = doc.summary;
         }
-        console.error('');
+        console.error(`Could not find docs for ${title}`);
         i++;
     }
 })();
