@@ -13,6 +13,7 @@ const docToMarkDown = (title: string, linkText: string, link: string, descriptio
 };
 
 export const getWidgetContent = (result: Result) => {
+    console.log(`results: ${result}`);
     const root = getDocItem(result.output);
     const item = docToMarkDown(root.title, root.linkText, root.link, root.description, result.code);
     let content = [];
@@ -20,7 +21,6 @@ export const getWidgetContent = (result: Result) => {
 
     if (result.children) {
         const children = new MarkdownString('# Children: \n');
-
         let docItem;
         let code;
         let child;
@@ -39,7 +39,7 @@ export const getWidgetContent = (result: Result) => {
             content.push(children);
         }
     }
-    console.log(content);
+
     return {
         contents: content,
     };

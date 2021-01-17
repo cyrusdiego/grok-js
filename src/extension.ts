@@ -28,10 +28,10 @@ export function getCodeSnippet(start: number, end: number): string {
     }
 
     const startPos = activeEditor.document.positionAt(start);
-    const endPos = editor.document.positionAt(end);
+    const endPos = activeEditor.document.positionAt(end);
 
     const highlightRange = new vscode.Range(startPos, endPos);
-    return editor.document.getText(highlightRange);
+    return activeEditor.document.getText(highlightRange);
 }
 
 /**
@@ -137,7 +137,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     const hoverRegistration = languages.registerHoverProvider('javascript', {
-        provideHover(document: TextDocument, position: Position) {
+        provideHover(document: TextDocument, position: Position, _) {
             const hoverOffset = document.offsetAt(position);
             if (startOffset <= hoverOffset && hoverOffset <= endOffset && showHoverWidget(grokClassification.output)) {
                 const widgetContent = getWidgetContent(grokClassification);
