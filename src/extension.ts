@@ -4,58 +4,52 @@
  * ------------------------------------------------------------------------------------------ */
 
 import * as vscode from 'vscode';
-import inlineDecorator from './inlineDecorator';
+import { grok } from './api';
+import inlineDecoratorType from './inlineDecoratorType';
 import { languages, TextDocument, Position, ExtensionContext, CancellationToken, MarkdownString } from 'vscode';
 import { hoverWidgetContent } from './hoverWidget';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-    let startOffset = -1;
-    let endOffset = -1;
-    const decorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
+    // Global state to store what is currently highlighted
+    let startOffset = 0;
+    let endOffset = 0;
+
+    const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
         const editor = selectionEvent.textEditor;
 
         const decorations: vscode.DecorationOptions[] = [];
         const text = editor.document.getText();
 
         const lines = text.split('\n');
+        const selection = selectionEvent.selections[0]; // TODO: Verify if this will ever fail
 
-        for (const selection of selectionEvent.selections) {
-            const firstLine = selection.start.line;
+        // Get start and end position
+        let start = new vscode.Position(selection.start.line, editor.selection.start.character);
+        let end = new vscode.Position(selection.end.line, editor.selection.end.character);
 
-            let selectedText = '';
-            for (let i = selection.start.line; i <= selection.end.line; i++) {
-                if (i === selection.start.line) {
-                    selectedText += lines[i].substr(selection.start.character, lines[i].length);
-                } else if (i < selection.end.line) {
-                    selectedText += lines[i];
-                } else {
-                    selectedText += lines[i].substr(0, selection.end.character);
-                }
-            }
+        // Calculate offsets
+        const highlightRange = new vscode.Range(start, end);
+        const highlightedText = editor.document.getText(highlightRange);
 
-            // get start and end position
-            let start = new vscode.Position(editor.selection.start.line, editor.selection.start.character);
-            let end = new vscode.Position(editor.selection.end.line, editor.selection.end.character);
+        startOffset = editor.document.getText().indexOf(highlightedText);
+        endOffset = startOffset + highlightedText.length;
 
-            // get offsets
-            let range = new vscode.Range(start, end);
-            let highlight = editor.document.getText(range);
-            startOffset = editor.document.getText().indexOf(highlight);
-            endOffset = startOffset + highlight.length;
+        // Get classification from AST
+        const result = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset);
 
-            decorations.push({
-                range: new vscode.Range(firstLine, 0, firstLine, lines[firstLine].length),
-                renderOptions: {
-                    after: {
-                        contentText: 'Brief description',
-                    },
+        decorations.push({
+            // Display decorator for the entire line
+            range: new vscode.Range(start.line, 0, end.line, lines[end.line].length),
+            renderOptions: {
+                after: {
+                    contentText: result,
                 },
-            });
-        }
+            },
+        });
 
-        editor.setDecorations(inlineDecorator, decorations);
+        editor.setDecorations(inlineDecoratorType, decorations);
     });
 
     const hoverRegistration = languages.registerHoverProvider('javascript', {
@@ -79,8 +73,8 @@ export function activate(context: vscode.ExtensionContext) {
         },
     });
 
+    context.subscriptions.push(inlineDecorator);
     context.subscriptions.push(hoverRegistration);
-    context.subscriptions.push(decorator);
 }
 
 export function deactivate() {}
