@@ -1,14 +1,11 @@
-/* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
-
 import * as vscode from 'vscode';
-import { grok } from './api';
-import inlineDecoratorType from './inlineDecoratorType';
-import { languages, TextDocument, Position, ExtensionContext, CancellationToken, MarkdownString } from 'vscode';
-import { hoverWidgetContent, showHoverWidget } from './hoverWidget';
+import { CancellationToken, languages, Position, TextDocument } from 'vscode';
+import { grok, Result } from './api';
 import { getDocItem } from './docs';
+import { getWidgetContent, showHoverWidget } from './hoverWidget';
+import inlineDecoratorType from './inlineDecoratorType';
+
+let editor: vscode.TextEditor;
 
 function get_offset(pos: vscode.Position, lines: string[]) {
     let offset = 0;
@@ -19,6 +16,18 @@ function get_offset(pos: vscode.Position, lines: string[]) {
     return offset + pos.character;
 }
 
+export function getCodeSnippet(start: number, end: number): string {
+    if (!editor) {
+        return '';
+    }
+
+    const startPos = editor.document.positionAt(start);
+    const endPos = editor.document.positionAt(end);
+
+    const highlightRange = new vscode.Range(startPos, endPos);
+    return editor.document.getText(highlightRange);
+}
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -26,12 +35,12 @@ export function activate(context: vscode.ExtensionContext) {
     let startOffset = 0;
     let endOffset = 0;
     let single_click = false;
-    let grokClassification = { output: '', code: '' };
+    let grokClassification: Result = { output: '', code: '', children: [] };
 
     const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
         if (selectionEvent?.kind === undefined) return;
 
-        const editor = selectionEvent.textEditor;
+        editor = selectionEvent.textEditor;
 
         const decorations: vscode.DecorationOptions[] = [];
         const text = editor.document.getText();
@@ -48,7 +57,6 @@ export function activate(context: vscode.ExtensionContext) {
             end = new vscode.Position(start.line, lines[start.line].length);
         }
 
-        // Calculate offsets
         const highlightRange = new vscode.Range(start, end);
         const highlightedText = editor.document.getText(highlightRange);
 
@@ -57,7 +65,6 @@ export function activate(context: vscode.ExtensionContext) {
 
         // Get classification from AST
         grokClassification = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset);
-
         if (single_click) end = start;
         decorations.push({
             // Display decorator for the entire line
@@ -76,9 +83,8 @@ export function activate(context: vscode.ExtensionContext) {
         provideHover(document: TextDocument, position: Position, token: CancellationToken) {
             const hoverOffset = document.offsetAt(position);
             if (startOffset <= hoverOffset && hoverOffset <= endOffset && showHoverWidget(grokClassification.output)) {
-                const { title, linkText, link, description } = getDocItem(grokClassification.output);
-
-                return hoverWidgetContent(title, linkText, link, description, grokClassification.code);
+                const widgetContent = getWidgetContent(grokClassification);
+                return widgetContent;
             }
         },
     });

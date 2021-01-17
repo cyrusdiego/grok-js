@@ -1,6 +1,5 @@
 import * as acorn from 'acorn';
 import * as walk from 'acorn-walk';
-import { on } from 'events';
 
 export interface Selection {
     start: number;
@@ -19,7 +18,7 @@ export interface Result {
     children: acorn.Node[];
 }
 
-type ParentNode = Record<string, acorn.Node[]> & acorn.Node;
+export type ParentNode = Record<string, acorn.Node[]> & acorn.Node;
 
 // TODO add logic to tell a user what is more specific than what they selected when they highlight
 
@@ -93,6 +92,7 @@ function getChildren(found: walk.Found<ParentNode>): acorn.Node[] {
     return children as acorn.Node[];
 }
 
-function isNode(node: any): node is acorn.Node {
+export function isNode(node: any): node is acorn.Node {
+    console.log(`${node && node.type && node.start && node.end}`);
     return node && node.type && node.start && node.end;
 }
