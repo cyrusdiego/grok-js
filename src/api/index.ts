@@ -27,6 +27,7 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean)
     // TODO add more options?
     const opts: acorn.Options = {
         ecmaVersion: 'latest',
+        sourceType: 'module',
     };
     let ast: acorn.Node = {} as acorn.Node;
     try {
