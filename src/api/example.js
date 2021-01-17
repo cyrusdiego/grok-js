@@ -22,7 +22,14 @@ console.log(`Hello ${myArray}`);
 console.log(1 + 2);
 
 // Function
-function aFunc() {
+async function aFunc() {
     let a = 4;
     return a;
 }
+
+// Multi-line
+console.log(
+    (() => {
+        return 1;
+    })()
+);
