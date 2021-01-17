@@ -11,12 +11,28 @@ import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } f
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
-	const outputChannel = window.createOutputChannel('grokJs');
-	let a = 20;
+	const outputChannel = window.createOutputChannel('Test');
 
 	window.onDidChangeTextEditorSelection((e) => {
-		const document = e.textEditor.document.getText();
-		outputChannel.appendLine("hello");
+
+		if (e.kind?.toString() === undefined) return;
+		
+		let start = e.textEditor.selection.start.character
+
+		let end = e.textEditor.selection.end.character
+
+		if (start === end) {
+			let current_line = window.activeTextEditor?.selection.active.line == undefined ? "0" : window.activeTextEditor?.selection.active.line.toString()
+			outputChannel.appendLine(current_line)
+			return
+		}
+
+		
+
+
+		let document = e.textEditor.document.getText();
+
+		outputChannel.appendLine(document.substring(start, end))
 	});
 	
 	//TODO: remove
@@ -52,7 +68,8 @@ export function activate(context: ExtensionContext) {
     client = new LanguageClient('grokJS', 'grokJS', serverOptions, clientOptions);
 
     // Start the client. This will also launch the server
-    client.start();
+	client.start();
+	context.subscriptions.push(outputChannel);
 }
 
 export function deactivate(): Thenable<void> | undefined {
