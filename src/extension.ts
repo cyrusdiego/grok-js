@@ -70,9 +70,9 @@ function decorateInline(): State {
     // Get start and end position
     let start = new vscode.Position(selection.start.line, activeEditor.selection.start.character);
     let end = new vscode.Position(selection.end.line, activeEditor.selection.end.character);
-
+    const isSame = start.character === end.character && start.line === end.line;
     // If there is no highlight, send the entire line
-    if (start.character === end.character && start.line === end.line) {
+    if (isSame) {
         start = new vscode.Position(start.line, 0);
         end = new vscode.Position(start.line, lines[start.line].length);
     }
@@ -85,7 +85,7 @@ function decorateInline(): State {
     const endOffset = startOffset + highlightedText.length;
 
     // Get classification from AST
-    const grokClassification = grok(text, { start: startOffset, end: endOffset }, startOffset !== endOffset, settings);
+    const grokClassification = grok(text, { start: startOffset, end: endOffset }, !isSame, settings);
 
     decorations.push({
         // Display decorator for the entire line
