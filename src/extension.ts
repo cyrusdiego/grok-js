@@ -20,16 +20,14 @@ export function activate(context: ExtensionContext) {
 		let start = new Position(e.textEditor.selection.start.line, e.textEditor.selection.start.character)
 
 		let end = new Position(e.textEditor.selection.end.line, e.textEditor.selection.end.character)
-
-		if (start.line === end.line && start.character == end.character) {
-			outputChannel.appendLine(e.textEditor.selection.start.line.toString())
-			return
-		}
-		
+		 
 		let range = new Range(start, end);
 		let highlight =  e.textEditor.document.getText(range);
+		
+		let start_offset = e.textEditor.document.getText().indexOf(highlight)
+		let end_offset = start_offset + highlight.length
 
-		outputChannel.appendLine(highlight);
+		outputChannel.appendLine(e.textEditor.document.getText().substr(start_offset, end_offset));
 		// TODO: Add delay to ensue click or highlight
 	});
 	
