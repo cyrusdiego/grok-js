@@ -1,10 +1,16 @@
 import * as docs from 'docs.json';
 
 export interface DocItem {
-    /** Contains short text blurb */
+    /** Short text blurb */
     inline: string;
-    /** Contains markdown*/
-    widget: string;
+    /** Title for popup*/
+    title: string;
+    /** Text for link to documentation*/
+    linkText: string;
+    /** Link to documentation*/
+    link: string;
+    /** Description of syntax*/
+    description: string;
 }
 
 // TODO memoize loading the json
