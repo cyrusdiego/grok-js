@@ -525,7 +525,7 @@
         "title": "Import Expression",
         "linkText": "Working with Import Expression",
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import",
-        "description": "The static import statement is used to import read only live bindings which are exported by another module. Imported modules are in strict mode whether you declare them as such or not. The import statement cannot be used in embedded scripts unless such script has a type="module". Bindings imported are called live bindings because they are updated by the module that exported the binding."
+        "description": "The static import statement is used to import read only live bindings which are exported by another module. Imported modules are in strict mode whether you declare them as such or not. The import statement cannot be used in embedded scripts unless such script has a type=\"module\". Bindings imported are called live bindings because they are updated by the module that exported the binding."
     },
     "default": { "inline": "TODO", "title": "TODO", "linkText": "TODO", "link": "", "description": "" },
     "parse_failed": { "inline": "TODO", "title": "TODO", "linkText": "TODO", "link": "", "description": "" },
