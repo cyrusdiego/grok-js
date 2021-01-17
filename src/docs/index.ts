@@ -1,4 +1,4 @@
-import * as docs from 'docs.json';
+import * as docs from './docs.json';
 
 export interface DocItem {
     /** Short text blurb */
