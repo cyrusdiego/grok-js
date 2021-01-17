@@ -26,6 +26,10 @@ GrokJS has a number of settings that can be configured. These determine what sty
 
 ![settings](docs/preferences.gif)
 
+## Support
+
+GrokJS only supports pure JavaScript. Typescript and JSX are currently not supported. If those are something you're interested in support us by giving this extension 5 stars.
+
 ## Motivation
 
 Syntax can be a big stumbling block when learning a new language. Even worse, it is often difficult to separate the syntax and semantics of a piece of code which makes Googling difficult. For example with the line of code below.
