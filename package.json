@@ -57,5 +57,5 @@
         "node-html-parser": "^2.0.2",
         "ts-node": "^9.1.1"
     },
-    "icon": "docs/spellIcon.png"
+    "icon": "docs/logo.png"
 }
