@@ -8,6 +8,7 @@ import { grok } from './api';
 import inlineDecoratorType from './inlineDecoratorType';
 import { languages, TextDocument, Position, ExtensionContext, CancellationToken, MarkdownString } from 'vscode';
 import { hoverWidgetContent } from './hoverWidget';
+import { getDocItem } from './docs';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -38,13 +39,15 @@ export function activate(context: vscode.ExtensionContext) {
 
         // Get classification from AST
         const result = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset);
+        // TODO handle errors
+        const inlineOutput = getDocItem(result);
 
         decorations.push({
             // Display decorator for the entire line
             range: new vscode.Range(start.line, 0, end.line, lines[end.line].length),
             renderOptions: {
                 after: {
-                    contentText: result,
+                    contentText: inlineOutput.inline,
                 },
             },
         });
