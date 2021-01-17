@@ -42,7 +42,7 @@ type State = {
 function decorateInline(): State {
     const activeEditor = vscode.window.activeTextEditor;
 
-    // Start analyzing only if there's an active text editor with a javascript file open
+    // Do not analyze if there is no file open or file open is not a javascript file
     if (activeEditor === undefined || !activeEditor.document.fileName.endsWith('.js')) {
         return { startOffset: 0, endOffset: 0, grokClassification: { output: '', code: '' } };
     }
@@ -108,6 +108,8 @@ function getSettings(): Settings {
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+    console.log('activate');
+
     // Global state to store what is currently highlighted
     let startOffset = 0;
     let endOffset = 0;
@@ -118,9 +120,15 @@ export function activate(context: vscode.ExtensionContext) {
 
     // On configurations change
     const inlineDecoratorSettings = vscode.workspace.onDidChangeConfiguration((configurationChangeEvent) => {
-        if (configurationChangeEvent.affectsConfiguration('grokJS')) {
+        console.log('configuration event');
+        if (configurationChangeEvent.affectsConfiguration('grokJS.allowImportExportEverywhere')) {
             ({ startOffset, endOffset, grokClassification } = decorateInline());
         }
+    });
+
+    // On switch tab groups
+    const inlineDecoratorActiveTextEditor = vscode.window.onDidChangeActiveTextEditor((_) => {
+        ({ startOffset, endOffset, grokClassification } = decorateInline());
     });
 
     // On highlight changes
@@ -139,8 +147,9 @@ export function activate(context: vscode.ExtensionContext) {
         },
     });
 
-    context.subscriptions.push(inlineDecoratorHighlight);
     context.subscriptions.push(inlineDecoratorSettings);
+    context.subscriptions.push(inlineDecoratorActiveTextEditor);
+    context.subscriptions.push(inlineDecoratorHighlight);
     context.subscriptions.push(hoverRegistration);
 }
 
