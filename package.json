@@ -1,6 +1,6 @@
 {
     "name": "grok-js",
-    "displayName": "grokJS",
+    "displayName": "GrokJS",
     "description": "",
     "publisher": "grokjs",
     "repository": {
@@ -26,7 +26,7 @@
         "configuration": [
             {
                 "type": "object",
-                "title": "Grok JS",
+                "title": "GrokJS",
                 "properties": {
                     "grokJS.ecmaVersion": {
                         "type": [
