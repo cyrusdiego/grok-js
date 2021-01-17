@@ -18,11 +18,13 @@ Hints about the current line will be shown inline to give you your best bet at G
 
 Highlight and hover over a piece of your code for more information. A modal will give a thorough description of the syntax and a link to documentation.
 
-![hover](docs/hover.gif);
+![hover](docs/hover.gif)
 
 ## Settings
 
 GrokJS has a number of settings that can be configured. These determine what style of JS code will be validly parsed.
+
+![settings](docs/preferences.gif)
 
 ## Motivation
 
@@ -31,6 +33,7 @@ Syntax can be a big stumbling block when learning a new language. Even worse, it
 ```js
 const [message, setMessage] = useState("Hello world!");
 ```
+
 If you don't know what [array destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#array_destructuring) is then you won't have much luck Googling to understand this code. You might find documentation for `useState` or for `setMessage` — but Google doesn't know you just want to understand the syntax.
 
 GrokJS solves this problem by adding inline annotations about the syntax to the editor. And for when this is not enough you'll find links to informative documentation.

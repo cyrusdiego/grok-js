@@ -27,12 +27,8 @@ export interface Result {
     code: string;
 }
 
-// TODO add logic to tell a user what is more specific than what they selected when they highlight
-
-// TODO don't return any but rather a proper type
 export function grok(src: string, selection: Selection, isHighlighting: boolean, acorn_settings: Settings): Result {
     // Parse the source code into an AST
-    // TODO add more options?
     const opts: acorn.Options = {
         ecmaVersion: acorn_settings.ecmaversion,
         sourceType: acorn_settings.sourcetype,
@@ -66,7 +62,6 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean,
             }
         }
     } catch (error) {
-        // TODO return something else
         return { output: Error.WALK_FAILED, code: '' };
     }
 
