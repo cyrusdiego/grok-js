@@ -28,7 +28,7 @@
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
-    "test:algo": "ts-node ./src/api/index.ts"
+    "test:algo": "ts-node ./src/api/index.test.ts"
   },
   "devDependencies": {
     "@types/vscode": "^1.52.0",

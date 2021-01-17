@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import * as acorn from 'acorn';
 import * as walk from 'acorn-walk';
 
@@ -56,24 +55,3 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean)
 function anyNode(type: any, node: any): boolean {
     return true;
 }
-
-// TODO remove this is just for testing
-function test(selection: Selection, label: string, isHighlighting: boolean) {
-    const src = fs.readFileSync('./src/api/example.js', 'utf8');
-    console.log(label);
-    console.log('=============================================');
-    console.log(`"${src.substring(selection.start, selection.end)}"`);
-    console.log('=============================================');
-    console.log(selection);
-    console.log(grok(src, selection, isHighlighting));
-    console.log('\n\n');
-}
-
-// TODO better tests
-test({ start: 78, end: 85 }, 'Rest element exact highlight', true);
-test({ start: 77, end: 85 }, 'Rest element missed highlight', true);
-test({ start: 49, end: 108 }, 'Rest element no highlight', false);
-
-test({ start: 597, end: 609 }, 'Multi-line no highlight', false);
-test({ start: 613, end: 638 }, 'Multi-line no highlight', false);
-test({ start: 597, end: 609 }, 'Multi-line no highlight', false);
