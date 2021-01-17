@@ -1,26 +1,53 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import inlineDecorator from './inlineDecorator';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+    const decorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
+        const editor = selectionEvent.textEditor;
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "grok-js" is now active!');
+        const decorations: vscode.DecorationOptions[] = [];
+        const text = editor.document.getText();
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('grok-js.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+		const lines = text.split('\n');
+		
+		for (const line of lines) {
+			console.log(line);
+		}
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from grok-js!');
-	});
+        for (let i = 0; i < lines.length; i++) {
+            decorations.push({
+				range: new vscode.Range(i, Number.MIN_SAFE_INTEGER, i, Number.MAX_SAFE_INTEGER),
+				renderOptions: {
+					after: {
+						contentText: 'John Cena',
+					}
+				}
+            });
+		}
+
+        editor.setDecorations(inlineDecorator, decorations);
+    });
+
+    // Use the console to output diagnostic information (console.log) and errors (console.error)
+    // This line of code will only be executed once when your extension is activated
+    console.log('Congratulations, your extension "grok-js" is now active!');
+
+    // The command has been defined in the package.json file
+    // Now provide the implementation of the command with registerCommand
+    // The commandId parameter must match the command field in package.json
+    let disposable = vscode.commands.registerCommand('grok-js.helloWorld', () => {
+        // The code you place here will be executed every time your command is executed
+
+        // Display a message box to the user
+        vscode.window.showInformationMessage('Hello World from grok-js!');
+    });
 
 	context.subscriptions.push(disposable);
+	context.subscriptions.push(decorator);
 }
 
 // this method is called when your extension is deactivated
