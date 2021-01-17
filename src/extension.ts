@@ -111,15 +111,16 @@ export function activate(context: vscode.ExtensionContext) {
     // Global state to store what is currently highlighted
     let startOffset = 0;
     let endOffset = 0;
-    let settings = getSettings();
     let grokClassification = { output: '', code: '' };
 
     // On start-up
     ({ startOffset, endOffset, grokClassification } = decorateInline());
 
     // On configurations change
-    const inlineDecoratorSettings = vscode.workspace.onDidChangeConfiguration((_) => {
-        ({ startOffset, endOffset, grokClassification } = decorateInline());
+    const inlineDecoratorSettings = vscode.workspace.onDidChangeConfiguration((configurationChangeEvent) => {
+        if (configurationChangeEvent.affectsConfiguration('grokJS')) {
+            ({ startOffset, endOffset, grokClassification } = decorateInline());
+        }
     });
 
     // On highlight changes
