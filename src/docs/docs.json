@@ -472,8 +472,8 @@
         "inline": "Module Specifier",
         "title": "Module Specifier",
         "linkText": "Working with Module Specifier",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import",
-        "description": "The static import statement is used to import read only live bindings which are exported by another module. Imported modules are in strict mode whether you declare them as such or not. The import statement cannot be used in embedded scripts unless such script has a type=\"module\". Bindings imported are called live bindings because they are updated by the module that exported the binding."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
+        "description": "An import or export statement for modules."
     },
     "ImportDeclaration": {
         "inline": "Import Declaration",
@@ -521,15 +521,15 @@
         "inline": "Anonymous Default Exported Function Declaration",
         "title": "Anonymous Default Exported Function Declaration",
         "linkText": "Working with Anonymous Default Exported Function Declaration",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export",
+        "description": "An anonymous default exported function declaration."
     },
     "AnonymousDefaultExportedClassDeclaration": {
         "inline": "Anonymous Default Exported Class Declaration",
         "title": "Anonymous Default Exported Class Declaration",
         "linkText": "Working with Anonymous Default Exported Class Declaration",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export",
+        "description": "An anonymous default exported class declaration."
     },
     "ExportDefaultDeclaration": {
         "inline": "Export Default Declaration",
@@ -542,8 +542,8 @@
         "inline": "Export All Declaration",
         "title": "Export All Declaration",
         "linkText": "Working with Export All Declaration",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export",
+        "description": "Exports everything."
     },
     "AwaitExpression": {
         "inline": "Await Expression",
