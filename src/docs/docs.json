@@ -207,8 +207,8 @@
         "inline": "Expression",
         "title": "Expression",
         "linkText": "Working with Expression",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators",
-        "description": "TODO"
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#expressions",
+        "description": "An expression is any valid unit of code that resolves to a value."
     },
     "ThisExpression": {
         "inline": "This Expression",
@@ -231,13 +231,19 @@
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer",
         "description": "Objects can be initialized using new Object(), Object.create(), or using the literal notation (initializer notation). An object initializer is a comma-delimited list of zero or more pairs of property names and associated values of an object, enclosed in curly braces ({})."
     },
-    "Property": { "inline": "Property", "title": "Property", "linkText": "Working with Property", "link": "", "description": "" },
+    "Property": {
+        "inline": "Property",
+        "title": "Property",
+        "linkText": "Working with Property",
+        "link": "https://developer.mozilla.org/en-US/docs/Glossary/property/JavaScript",
+        "description": "A JavaScript property is a characteristic of an object, often describing attributes associated with a data structure."
+    },
     "FunctionExpression": {
         "inline": "Function Expression",
         "title": "Function Expression",
         "linkText": "Working with Function Expression",
-        "link": "https://developer.mozilla.org/en-US/docs/Glossary/property/JavaScript",
-        "description": "A JavaScript property is a characteristic of an object, often describing attributes associated with a data structure."
+        "link": "https://developer.mozilla.org/en-US/docs/web/JavaScript/Reference/Operators/function",
+        "description": "he function keyword can be used to define a function inside an expression."
     },
     "UnaryExpression": {
         "inline": "Unary Expression",
@@ -250,15 +256,15 @@
         "inline": "Update Expression",
         "title": "Update Expression",
         "linkText": "Working with Update Expression",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#increment_and_decrement",
+        "description": "Postfix/prefix increment and postfix/prefix decrement operators."
     },
     "BinaryExpression": {
         "inline": "Binary Expression",
         "title": "Binary Expression",
         "linkText": "Working with Binary Expression",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#arithmetic_operators",
+        "description": "A unary operation is an operation with two operands."
     },
     "AssignmentExpression": {
         "inline": "Assignment Expression",
@@ -271,15 +277,15 @@
         "inline": "Logical Expression",
         "title": "Logical Expression",
         "linkText": "Working with Logical Expression",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#binary_logical_operators",
+        "description": "Logical operators are typically used with boolean (logical) values, and when they are, they return a boolean value."
     },
     "MemberExpression": {
         "inline": "Member Expression",
         "title": "Member Expression",
         "linkText": "Working with Member Expression",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#binary_logical_operators",
-        "description": "Logical operators are typically used with boolean (logical) values, and when they are, they return a boolean value."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "description": "Member expressions provide access to an object's properties by using the dot notation or the bracket notation."
     },
     "ConditionalExpression": {
         "inline": "Conditional Expression",
