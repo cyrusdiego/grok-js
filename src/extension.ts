@@ -67,9 +67,9 @@ export function activate(context: vscode.ExtensionContext) {
                                 In addition to objects that are predefined in the browser, you can define your own objects.
                                 This chapter describes how to use objects, properties, functions, and methods, and how to
                                 create your own objects.`;
-            return {
-                contents: [new MarkdownString(hoverWidget(title, documentation_link, documentation_blob))],
-            };
+            const link = 'https://github.com/cyrusdiego/grok-js';
+
+            return hoverWidgetContent(title, linkText, link, blob);
         },
     });
 
