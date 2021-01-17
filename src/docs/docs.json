@@ -1,12 +1,24 @@
 {
-    "Identifier": { "inline": "Identifier", "title": "Identifier", "linkText": "Working with Identifier", "link": "", "description": "" },
-    "Literal": { "inline": "Literal", "title": "Literal", "linkText": "Working with Literal", "link": "", "description": "" },
-    "RegExpLiteral": {
-        "inline": "Reg Exp Literal",
-        "title": "Reg Exp Literal",
-        "linkText": "Working with Reg Exp Literal",
+    "Identifier": {
+        "inline": "Identifier",
+        "title": "Identifier",
+        "linkText": "Working with Identifier",
         "link": "https://developer.mozilla.org/en-US/docs/Glossary/Identifier",
         "description": "An identifier is a sequence of characters in the code that identifies a variable, function, or property."
+    },
+    "Literal": {
+        "inline": "Literal",
+        "title": "Literal",
+        "linkText": "Working with Literal",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#literals",
+        "description": "Literals represent values in JavaScript. These are fixed values—not variables—that you literally provide in your script."
+    },
+    "RegExpLiteral": {
+        "inline": "RegExp Literal",
+        "title": "RegExp Literal",
+        "linkText": "Working with RegExp Literal",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+        "description": "The RegExp object is used for matching text with a pattern."
     },
     "Function": {
         "inline": "Function",
@@ -27,7 +39,7 @@
         "title": "Expression Statement",
         "linkText": "Working with Expression Statement",
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators",
-        "description": "Like most expressions, assignments like x = y have a return value. It can be retrieved by e.g. assigning the expression or logging it:"
+        "description": "An expression is any valid unit of code that resolves to a value."
     },
     "Directive": { "inline": "Directive", "title": "Directive", "linkText": "Working with Directive", "link": "TODO", "description": "" },
     "BlockStatement": {
@@ -112,14 +124,14 @@
         "title": "Switch Case",
         "linkText": "Working with Switch Case",
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch",
-        "description": ""
+        "description": "An individual piece of functionality that may potentially be executed by a switch statement."
     },
     "ThrowStatement": {
         "inline": "Throw Statement",
         "title": "Throw Statement",
         "linkText": "Working with Throw Statement",
-        "link": "",
-        "description": "The switch statement evaluates an expression, matching the expression's value to a case clause, and executes statements associated with that case, as well as statements in cases that follow the matching case."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw",
+        "description": "The throw statement throws a user-defined exception. Execution of the current function will stop (the statements after throw won't be executed), and control will be passed to the first catch block in the call stack. If no catch block exists among caller functions, the program will terminate."
     },
     "TryStatement": {
         "inline": "Try Statement",
@@ -168,7 +180,7 @@
         "title": "Declaration",
         "linkText": "Working with Declaration",
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements",
-        "description": "JavaScript applications consist of statements with an appropriate syntax. A single statement may span multiple lines. Multiple statements may occur on a single line if each statement is separated by a semicolon. This isn't a keyword, but a group of keywords."
+        "description": "JavaScript applications consist of statements and declarations. Declarations are statements in which a value is assigned to a variable"
     },
     "FunctionDeclaration": {
         "inline": "Function Declaration",
@@ -181,15 +193,15 @@
         "inline": "Variable Declaration",
         "title": "Variable Declaration",
         "linkText": "Working with Variable Declaration",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
-        "description": "The let statement declares a block-scoped local variable, optionally initializing it to a value."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements#declarations",
+        "description": "The let, var, and const statements declare a variable and optionally initialize it to a value. Let and const declare a block-scoped local variable while var declares a function-scoped or globally-scoped variable."
     },
     "VariableDeclarator": {
         "inline": "Variable Declarator",
         "title": "Variable Declarator",
         "linkText": "Working with Variable Declarator",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
-        "description": "The var statement declares a function-scoped or globally-scoped variable, optionally initializing it to a value."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements#declarations",
+        "description": "A Variable Declarator is similar to assignment except that it binds the value to a new variable."
     },
     "Expression": {
         "inline": "Expression",
