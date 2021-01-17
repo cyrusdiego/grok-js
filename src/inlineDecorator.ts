@@ -1,11 +1,10 @@
-import { DecorationRangeBehavior, window } from 'vscode';
+import * as vscode from 'vscode';
 
-const inlineDecorator = window.createTextEditorDecorationType({
-	after: {
-		margin: '0 0 0 3em',
-		textDecoration: 'none',
-	},
-	rangeBehavior: DecorationRangeBehavior.ClosedOpen,
+const inlineDecorator = vscode.window.createTextEditorDecorationType({
+    after: {
+        margin: '0 0 0 3em',
+        color: new vscode.ThemeColor('editorWhitespace.foreground')
+    },
 });
 
 export default inlineDecorator;
