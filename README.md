@@ -12,12 +12,12 @@ GrokJS helps you learn Javascript by reading code! Highlight the code segment yo
 
 ### Inline hint
 
-Quick hints to let you start Googlin' off to the web.
+Current line hints to give you your best bet at googling.
 
 ![inline hints](docs/inline-decorator.gif)
 
-### Hover hint
+### Highlight and hover
 
-Contains the link to official documentation to get you even more knowledge!
+Highlight over statements that you want to learn more about. Also contains the link to official documentation.
 
 ![hover](docs/hover.gif);
