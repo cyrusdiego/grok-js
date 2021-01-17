@@ -305,29 +305,29 @@
         "inline": "Spread Element",
         "title": "Spread Element",
         "linkText": "Working with Spread Element",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+        "description": "Spread syntax (...) allows an iterable such as an array expression or string to be expanded in places where zero or more arguments (for function calls) or elements (for array literals) are expected, or an object expression to be expanded in places where zero or more key-value pairs (for object literals) are expected."
     },
     "ArrowFunctionExpression": {
         "inline": "Arrow Function Expression",
         "title": "Arrow Function Expression",
         "linkText": "Working with Arrow Function Expression",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+        "description": "An arrow function expression is a compact alternative to a traditional function expression, but is limited and can't be used in all situations."
     },
     "YieldExpression": {
         "inline": "Yield Expression",
         "title": "Yield Expression",
         "linkText": "Working with Yield Expression",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield",
+        "description": "The yield keyword is used to pause and resume a generator function (function* or legacy generator function)."
     },
     "TemplateLiteral": {
         "inline": "Template Literal",
         "title": "Template Literal",
         "linkText": "Working with Template Literal",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template",
+        "description": "The HTML Content Template (<template>) element is a mechanism for holding HTML that is not to be rendered immediately when a page is loaded but may be instantiated subsequently during runtime using JavaScript."
     },
     "TaggedTemplateExpression": {
         "inline": "Tagged Template Expression",
@@ -340,129 +340,129 @@
         "inline": "Template Element",
         "title": "Template Element",
         "linkText": "Working with Template Element",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals",
+        "description": "The default function just concatenates the parts into a single string. If there is an expression preceding the template literal (tag here), this is called a tagged template. In that case, the tag expression (usually a function) gets called with the template literal, which you can then manipulate before outputting."
     },
     "AssignmentProperty": {
         "inline": "Assignment Property",
         "title": "Assignment Property",
         "linkText": "Working with Assignment Property",
-        "link": "",
+        "link": "TODO",
         "description": ""
     },
     "ObjectPattern": {
         "inline": "Object Pattern",
         "title": "Object Pattern",
         "linkText": "Working with Object Pattern",
-        "link": "",
+        "link": "TODO",
         "description": ""
     },
     "ArrayPattern": {
         "inline": "Array Pattern",
         "title": "Array Pattern",
         "linkText": "Working with Array Pattern",
-        "link": "",
+        "link": "TODO",
         "description": ""
     },
     "RestElement": {
         "inline": "Rest Element",
         "title": "Rest Element",
         "linkText": "Working with Rest Element",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters",
+        "description": "The rest parameter syntax allows a function to accept an indefinite number of arguments as an array, providing a way to represent variadic functions in JavaScript."
     },
     "AssignmentPattern": {
         "inline": "Assignment Pattern",
         "title": "Assignment Pattern",
         "linkText": "Working with Assignment Pattern",
-        "link": "",
+        "link": "TODO",
         "description": ""
     },
-    "Class": { "inline": "Class", "title": "Class", "linkText": "Working with Class", "link": "", "description": "" },
-    "ClassBody": { "inline": "Class Body", "title": "Class Body", "linkText": "Working with Class Body", "link": "", "description": "" },
+    "Class": { "inline": "Class", "title": "Class", "linkText": "Working with Class", "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes", "description": "Classes are a template for creating objects. They encapsulate data with code to work on that data. Classes in JS are built on prototypes but also have some syntax and semantics that are not shared with ES5 classalike semantics." },
+    "ClassBody": { "inline": "Class Body", "title": "Class Body", "linkText": "Working with Class Body", "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#class_body_and_method_definitions", "description": "The body of a class is the part that is in curly brackets {}. This is where you define class members, such as methods or constructor." },
     "MethodDefinition": {
         "inline": "Method Definition",
         "title": "Method Definition",
         "linkText": "Working with Method Definition",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#class_body_and_method_definitions",
+        "description": "The body of a class is the part that is in curly brackets {}. This is where you define class members, such as methods or constructor."
     },
     "ClassDeclaration": {
         "inline": "Class Declaration",
         "title": "Class Declaration",
         "linkText": "Working with Class Declaration",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#class_declarations",
+        "description": "One way to define a class is using a class declaration. To declare a class, you use the class keyword with the name of the class (\"Rectangle\" here)."
     },
     "ClassExpression": {
         "inline": "Class Expression",
         "title": "Class Expression",
         "linkText": "Working with Class Expression",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#class_expressions",
+        "description": "A class expression is another way to define a class. Class expressions can be named or unnamed. The name given to a named class expression is local to the class's body. (it can be retrieved through the class's (not an instance's) name property, though)."
     },
     "MetaProperty": {
         "inline": "Meta Property",
         "title": "Meta Property",
         "linkText": "Working with Meta Property",
-        "link": "",
+        "link": "TODO",
         "description": ""
     },
     "ModuleDeclaration": {
         "inline": "Module Declaration",
         "title": "Module Declaration",
         "linkText": "Working with Module Declaration",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
+        "description": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules"
     },
     "ModuleSpecifier": {
         "inline": "Module Specifier",
         "title": "Module Specifier",
         "linkText": "Working with Module Specifier",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import",
+        "description": "The static import statement is used to import read only live bindings which are exported by another module. Imported modules are in strict mode whether you declare them as such or not. The import statement cannot be used in embedded scripts unless such script has a type=\"module\". Bindings imported are called live bindings because they are updated by the module that exported the binding."
     },
     "ImportDeclaration": {
         "inline": "Import Declaration",
         "title": "Import Declaration",
         "linkText": "Working with Import Declaration",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import",
+        "description": "The static import statement is used to import read only live bindings which are exported by another module. Imported modules are in strict mode whether you declare them as such or not. The import statement cannot be used in embedded scripts unless such script has a type=\"module\". Bindings imported are called live bindings because they are updated by the module that exported the binding."
     },
     "ImportSpecifier": {
         "inline": "Import Specifier",
         "title": "Import Specifier",
         "linkText": "Working with Import Specifier",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import",
+        "description": "The static import statement is used to import read only live bindings which are exported by another module. Imported modules are in strict mode whether you declare them as such or not. The import statement cannot be used in embedded scripts unless such script has a type=\"module\". Bindings imported are called live bindings because they are updated by the module that exported the binding."
     },
     "ImportDefaultSpecifier": {
         "inline": "Import Default Specifier",
         "title": "Import Default Specifier",
         "linkText": "Working with Import Default Specifier",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#importing_defaults",
+        "description": "It is possible to have a default export (whether it is an object, a function, a class, etc.). The import statement may then be used to import such defaults."
     },
     "ImportNamespaceSpecifier": {
         "inline": "Import Namespace Specifier",
         "title": "Import Namespace Specifier",
         "linkText": "Working with Import Namespace Specifier",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#importing_defaults",
+        "description": "It is also possible to use the default syntax with the ones seen above (namespace imports or named imports). In such cases, the default import will have to be declared first."
     },
     "ExportNamedDeclaration": {
         "inline": "Export Named Declaration",
         "title": "Export Named Declaration",
         "linkText": "Working with Export Named Declaration",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export",
+        "description": "The export statement is used when creating JavaScript modules to export live bindings to functions, objects, or primitive values from the module so they can be used by other programs with the import statement. Bindings that are exported can still be modified locally; when imported, although they can only be read by the importing module the value updates whenever it is updated by the exporting module."
     },
     "ExportSpecifier": {
         "inline": "Export Specifier",
         "title": "Export Specifier",
         "linkText": "Working with Export Specifier",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export#using_named_exports",
+        "description": "The export statement is used when creating JavaScript modules to export live bindings to functions, objects, or primitive values from the module so they can be used by other programs with the import statement. Bindings that are exported can still be modified locally; when imported, although they can only be read by the importing module the value updates whenever it is updated by the exporting module."
     },
     "AnonymousDefaultExportedFunctionDeclaration": {
         "inline": "Anonymous Default Exported Function Declaration",
@@ -482,50 +482,50 @@
         "inline": "Export Default Declaration",
         "title": "Export Default Declaration",
         "linkText": "Working with Export Default Declaration",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export#description",
+        "description": "There are two different types of export, named and default. You can have multiple named exports per module but only one default export."
     },
     "ExportAllDeclaration": {
         "inline": "Export All Declaration",
         "title": "Export All Declaration",
         "linkText": "Working with Export All Declaration",
-        "link": "",
+        "link": "TODO",
         "description": ""
     },
     "AwaitExpression": {
         "inline": "Await Expression",
         "title": "Await Expression",
         "linkText": "Working with Await Expression",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+        "description": "The await operator is used to wait for a Promise. It can only be used inside an async function."
     },
     "BigIntLiteral": {
         "inline": "Big Int Literal",
         "title": "Big Int Literal",
         "linkText": "Working with Big Int Literal",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt",
+        "description": "BigInt is a built-in object that provides a way to represent whole numbers larger than 253 - 1, which is the largest number JavaScript can reliably represent with the Number primitive and represented by the Number.MAX_SAFE_INTEGER constant. BigInt can be used for arbitrarily large integers."
     },
     "ChainExpression": {
         "inline": "Chain Expression",
         "title": "Chain Expression",
         "linkText": "Working with Chain Expression",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining",
+        "description": "The optional chaining operator (?.) permits reading the value of a property located deep within a chain of connected objects without having to expressly validate that each reference in the chain is valid. The ?. operator functions similarly to the . chaining operator, except that instead of causing an error if a reference is nullish (null or undefined), the expression short-circuits with a return value of undefined. When used with function calls, it returns undefined if the given function does not exist."
     },
     "ChainElement": {
         "inline": "Chain Element",
         "title": "Chain Element",
         "linkText": "Working with Chain Element",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining",
+        "description": "The optional chaining operator (?.) permits reading the value of a property located deep within a chain of connected objects without having to expressly validate that each reference in the chain is valid. The ?. operator functions similarly to the . chaining operator, except that instead of causing an error if a reference is nullish (null or undefined), the expression short-circuits with a return value of undefined. When used with function calls, it returns undefined if the given function does not exist."
     },
     "ImportExpression": {
         "inline": "Import Expression",
         "title": "Import Expression",
         "linkText": "Working with Import Expression",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import",
+        "description": "The static import statement is used to import read only live bindings which are exported by another module. Imported modules are in strict mode whether you declare them as such or not. The import statement cannot be used in embedded scripts unless such script has a type="module". Bindings imported are called live bindings because they are updated by the module that exported the binding."
     },
     "default": { "inline": "TODO", "title": "TODO", "linkText": "TODO", "link": "", "description": "" },
     "parse_failed": { "inline": "TODO", "title": "TODO", "linkText": "TODO", "link": "", "description": "" },
