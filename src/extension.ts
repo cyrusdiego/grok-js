@@ -26,6 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
     let startOffset = 0;
     let endOffset = 0;
     let single_click = false;
+    let grokClassification = '';
 
     const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
         if (selectionEvent?.kind === undefined) return;
@@ -55,7 +56,7 @@ export function activate(context: vscode.ExtensionContext) {
         endOffset = startOffset + highlightedText.length;
 
         // Get classification from AST
-        const result = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset);
+        grokClassification = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset);
 
         if (single_click) end = start;
         decorations.push({
@@ -63,7 +64,7 @@ export function activate(context: vscode.ExtensionContext) {
             range: new vscode.Range(start.line, 0, end.line, lines[end.line].length),
             renderOptions: {
                 after: {
-                    contentText: result,
+                    contentText: getDocItem(grokClassification).inline,
                 },
             },
         });
@@ -74,20 +75,10 @@ export function activate(context: vscode.ExtensionContext) {
     const hoverRegistration = languages.registerHoverProvider('javascript', {
         provideHover(document: TextDocument, position: Position, token: CancellationToken) {
             const hoverOffset = document.offsetAt(position);
-            if (startOffset <= hoverOffset && hoverOffset <= endOffset) {
-                const range = document.getWordRangeAtPosition(position);
-                const word = document.getText(range);
-                const title = 'Object instantiation';
-                const linkText = 'Working with Objects';
-                const link = 'https://github.com/cyrusdiego/grok-js/tree/text-decorator';
-                const blob = `JavaScript is designed on a simple object-based paradigm. 
-                                An object is a collection of properties, and a property is an association between a name (or key)
-                                and a value. A property's value can be a function, in which case the property is known as a method.
-                                In addition to objects that are predefined in the browser, you can define your own objects.
-                                This chapter describes how to use objects, properties, functions, and methods, and how to
-                                create your own objects.`;
+            if (startOffset <= hoverOffset && hoverOffset <= endOffset && showHoverWidget(grokClassification)) {
+                const { title, linkText, link, description } = getDocItem(grokClassification);
 
-                return hoverWidgetContent(title, linkText, link, blob);
+                return hoverWidgetContent(title, linkText, link, description);
             }
         },
     });
