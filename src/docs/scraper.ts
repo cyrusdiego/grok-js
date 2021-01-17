@@ -8,6 +8,26 @@ type Document = {
     summary?: string;
 };
 
+async function search(searchString: string) {
+    const res = await axios.get('https://www.google.com/search', {
+        params: {
+            q: searchString,
+        },
+    });
+    const root = parse(res.data);
+    const links = root.querySelectorAll('a');
+    for (const link of links) {
+        const matches = link.getAttribute('href')?.match(/https:\/\/.*/g);
+        if (matches === null || matches === undefined) {
+            continue;
+        }
+
+        for (const match of matches) {
+            console.log(match);
+        }
+    }
+}
+
 const urls: string[] = [
     'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment',
     'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions',
@@ -28,7 +48,5 @@ async function scrape(url: string) {
 }
 
 (async () => {
-    for (const url of urls) {
-        console.log(inspect(await scrape(url)));
-    }
+    await search('javascript mozilla');
 })();
