@@ -4,7 +4,7 @@
   <img width="128" height="128" src="docs/logo.png">
 </p>
 
-GrokJS helps you learn Javascript by reading code! Highlight the code segment you need help with and you'll be guided to relevant documentation.
+GrokJS helps you learn Javascript by reading code! Highlight the code segment you need help with and you'll be guided to relevant documentation. Download the extension [here](https://marketplace.visualstudio.com/items?itemName=grokjs.grok-js)
 
 ![demo](docs/demo1.gif)
 
