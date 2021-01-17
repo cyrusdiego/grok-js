@@ -3,21 +3,12 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 
-import * as path from 'path';
-
-import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
-
 import * as vscode from 'vscode';
 import inlineDecorator from './inlineDecorator';
-
-let client: LanguageClient;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
-	const outputChannel = vscode.window.createOutputChannel('Test');
-	
     const decorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
         const editor = selectionEvent.textEditor;
 
@@ -49,8 +40,6 @@ export function activate(context: vscode.ExtensionContext) {
 			let highlight =  editor.document.getText(range);
 			let start_offset = editor.document.getText().indexOf(highlight)
 			let end_offset = start_offset + highlight.length
-			outputChannel.appendLine(editor.document.getText().substr(start_offset, end_offset));
-
 
             decorations.push({
                 range: new vscode.Range(firstLine, 0, firstLine, lines[firstLine].length),
@@ -83,9 +72,4 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(decorator);
 }
 
-export function deactivate(): Thenable<void> | undefined {
-    if (!client) {
-        return undefined;
-    }
-    return client.stop();
-}
+export function deactivate(){}
