@@ -1,5 +1,8 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+/* --------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
+ * ------------------------------------------------------------------------------------------ */
+
 import * as vscode from 'vscode';
 import { grok } from './api';
 import inlineDecoratorType from './inlineDecoratorType';
@@ -27,8 +30,18 @@ export function activate(context: vscode.ExtensionContext) {
                 } else {
                     selectedText += lines[i].substr(0, selection.end.character);
                 }
-			}
-			console.log(selectedText);
+            }
+            console.log(selectedText);
+
+            // get start and end position
+            let start = new vscode.Position(editor.selection.start.line, editor.selection.start.character);
+            let end = new vscode.Position(editor.selection.end.line, editor.selection.end.character);
+
+            // get offsets
+            let range = new vscode.Range(start, end);
+            let highlight = editor.document.getText(range);
+            let start_offset = editor.document.getText().indexOf(highlight);
+            let end_offset = start_offset + highlight.length;
 
             // TODO: get global offset from Daniel
             const result = grok(text, { start: 49, end: 108 }, false);
@@ -64,5 +77,4 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(inlineDecorator);
 }
 
-// this method is called when your extension is deactivated
 export function deactivate() {}
