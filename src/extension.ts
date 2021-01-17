@@ -33,20 +33,22 @@ export function activate(context: vscode.ExtensionContext) {
             }
             console.log(selectedText);
 
-            // get start and end position
-            let start = new vscode.Position(editor.selection.start.line, editor.selection.start.character);
-            let end = new vscode.Position(editor.selection.end.line, editor.selection.end.character);
+            // Get start and end position
+            let start = new vscode.Position(selection.start.line, editor.selection.start.character);
+            let end = new vscode.Position(selection.end.line, editor.selection.end.character);
 
-            // get offsets
-            let range = new vscode.Range(start, end);
-            let highlight = editor.document.getText(range);
-            let start_offset = editor.document.getText().indexOf(highlight);
-            let end_offset = start_offset + highlight.length;
+            // Calculate offsets
+            const highlightRange = new vscode.Range(start, end);
+            const highlightedText = editor.document.getText(highlightRange);
 
-            // TODO: get global offset from Daniel
-            const result = grok(text, { start: 49, end: 108 }, false);
+            const startOffset = editor.document.getText().indexOf(highlightedText);
+            const endOffset = startOffset + highlightedText.length;
+
+            // Get classification from AST
+            const result = grok(text, { start: startOffset, end: endOffset }, false);
 
             decorations.push({
+                // Display decorator for the entire line
                 range: new vscode.Range(firstLine, 0, firstLine, lines[firstLine].length),
                 renderOptions: {
                     after: {
