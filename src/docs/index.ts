@@ -14,12 +14,12 @@ export interface DocItem {
 }
 
 // TODO memoize loading the json
-// TODO don't abuse any
 
 export function getDocItem(key: string): DocItem {
-    if (key in docs) {
-        return (docs as any)[key];
-    } else {
-        return (docs as any)['default'];
-    }
+    return isKeyOf(docs, key) ? docs[key] : docs['default'];
+}
+
+// https://stackoverflow.com/questions/53519513/in-typescript-how-to-import-json-and-dynamically-lookup-by-key/53519985
+function isKeyOf<T extends object>(obj: T, key: keyof any): key is keyof T {
+    return key in obj;
 }

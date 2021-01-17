@@ -515,8 +515,8 @@
         "link": "",
         "description": ""
     },
-    "default": { "inline": "TODO", "title": "TODO", "linkText": "TODO", "link": "", "description": "" },
-    "parse_failed": { "inline": "TODO", "title": "TODO", "linkText": "TODO", "link": "", "description": "" },
-    "walk_failed": { "inline": "TODO", "title": "TODO", "linkText": "TODO", "link": "", "description": "" },
-    "no_node_found": { "inline": "TODO", "title": "TODO", "linkText": "TODO", "link": "", "description": "" }
+    "default": { "inline": "Unknown Expression", "title": "", "linkText": "", "link": "", "description": "" },
+    "parse_failed": { "inline": "Invalid Syntax", "title": "", "linkText": "", "link": "", "description": "" },
+    "walk_failed": { "inline": "Error!", "title": "", "linkText": "", "link": "", "description": "" },
+    "no_node_found": { "inline": "Couldn't find code to parse", "title": "", "linkText": "", "link": "", "description": "" }
 }
