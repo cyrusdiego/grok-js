@@ -17,26 +17,7 @@ let client: LanguageClient;
 export function activate(context: vscode.ExtensionContext) {
 
 	const outputChannel = vscode.window.createOutputChannel('Test');
-
-	vscode.window.onDidChangeTextEditorSelection((e) => {
-
-		if (e.kind?.toString() === undefined) return;
-		
-		let start = new vscode.Position(e.textEditor.selection.start.line, e.textEditor.selection.start.character)
-
-		let end = new vscode.Position(e.textEditor.selection.end.line, e.textEditor.selection.end.character)
-		 
-		let range = new vscode.Range(start, end);
-		let highlight =  e.textEditor.document.getText(range);
-		
-		let start_offset = e.textEditor.document.getText().indexOf(highlight)
-		let end_offset = start_offset + highlight.length
-
-		outputChannel.appendLine(e.textEditor.document.getText().substr(start_offset, end_offset));
-		// TODO: Add delay to ensue click or highlight
-	});
-
-
+	
     const decorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
         const editor = selectionEvent.textEditor;
 
@@ -58,7 +39,18 @@ export function activate(context: vscode.ExtensionContext) {
                     selectedText += lines[i].substr(0, selection.end.character);
                 }
             }
-            // TODO: use selected text
+			
+			// get start and end position
+			let start = new vscode.Position(editor.selection.start.line, editor.selection.start.character)
+			let end = new vscode.Position(editor.selection.end.line, editor.selection.end.character)
+
+			// get offsets
+			let range = new vscode.Range(start, end);
+			let highlight =  editor.document.getText(range);
+			let start_offset = editor.document.getText().indexOf(highlight)
+			let end_offset = start_offset + highlight.length
+			outputChannel.appendLine(editor.document.getText().substr(start_offset, end_offset));
+
 
             decorations.push({
                 range: new vscode.Range(firstLine, 0, firstLine, lines[firstLine].length),
