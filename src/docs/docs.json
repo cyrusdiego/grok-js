@@ -1,0 +1,26 @@
+{
+    "ExpressionStatement": {
+        "inline": "Expression Statement",
+        "widget": "##Expression Statement\nA statement that executes an expression. [Documenation](https://google.com)"
+    },
+    "BlockStatement": {
+        "inline": "Block Statement",
+        "widget": "##Block Statement\nA statement that executes a block. [Documenation](https://google.com)"
+    },
+    "default": {
+        "inline": "",
+        "widget": "##Failed to parse"
+    },
+    "parse_failed": {
+        "inline": "TODO",
+        "widget": "##TODO"
+    },
+    "walk_failed": {
+        "inline": "TODO",
+        "widget": "##TODO"
+    },
+    "no_node_found": {
+        "inline": "TODO",
+        "widget": "##TODO"
+    }
+}
