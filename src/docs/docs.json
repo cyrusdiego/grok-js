@@ -41,7 +41,13 @@
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators",
         "description": "An expression is any valid unit of code that resolves to a value."
     },
-    "Directive": { "inline": "Directive", "title": "Directive", "linkText": "Working with Directive", "link": "TODO", "description": "" },
+    "Directive": {
+        "inline": "Directive",
+        "title": "Directive",
+        "linkText": "Working with Directive",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode",
+        "description": "A directive from the directive prologue of a script or function. The directive property is the raw string source of the directive without quotes."
+    },
     "BlockStatement": {
         "inline": "Block Statement",
         "title": "Block Statement",
@@ -312,15 +318,15 @@
         "inline": "Sequence Expression",
         "title": "Sequence Expression",
         "linkText": "Working with Sequence Expression",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comma_Operator",
+        "description": "A comma-seperated sequence of expressions."
     },
     "Pattern": {
         "inline": "Pattern",
         "title": "Pattern",
         "linkText": "Working with Pattern",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions",
-        "description": "Regular expressions are patterns used to match character combinations in strings. In JavaScript, regular expressions are also objects. These patterns are used with the exec() and test() methods of RegExp, and with the match(), matchAll(), replace(), replaceAll(), search(), and split() methods of String. This chapter describes JavaScript regular expressions."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment",
+        "description": "The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables."
     },
     "ForOfStatement": {
         "inline": "For Of Statement",
@@ -329,7 +335,13 @@
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of",
         "description": "The for...of statement creates a loop iterating over iterable objects, including: built-in String, Array, array-like objects (e.g., arguments or NodeList), TypedArray, Map, Set, and user-defined iterables. It invokes a custom iteration hook with statements to be executed for the value of each distinct property of the object."
     },
-    "Super": { "inline": "Super", "title": "Super", "linkText": "Working with Super", "link": "", "description": "" },
+    "Super": {
+        "inline": "Super",
+        "title": "Super",
+        "linkText": "Working with Super",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+        "description": "The super keyword is used to access and call functions on an object's parent."
+    },
     "SpreadElement": {
         "inline": "Spread Element",
         "title": "Spread Element",
@@ -355,43 +367,43 @@
         "inline": "Template Literal",
         "title": "Template Literal",
         "linkText": "Working with Template Literal",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template",
-        "description": "The HTML Content Template (<template>) element is a mechanism for holding HTML that is not to be rendered immediately when a page is loaded but may be instantiated subsequently during runtime using JavaScript."
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals",
+        "description": "Template literals are string literals allowing embedded expressions. You can use multi-line strings and string interpolation features with them. They were called \"template strings\" in prior editions of the ES2015 specification."
     },
     "TaggedTemplateExpression": {
         "inline": "Tagged Template Expression",
         "title": "Tagged Template Expression",
         "linkText": "Working with Tagged Template Expression",
-        "link": "",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#description",
+        "description": "The default function just concatenates the parts into a single string. If there is an expression preceding the template literal (tag here), this is called a tagged template. In that case, the tag expression (usually a function) gets called with the template literal, which you can then manipulate before outputting."
     },
     "TemplateElement": {
         "inline": "Template Element",
         "title": "Template Element",
         "linkText": "Working with Template Element",
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals",
-        "description": "The default function just concatenates the parts into a single string. If there is an expression preceding the template literal (tag here), this is called a tagged template. In that case, the tag expression (usually a function) gets called with the template literal, which you can then manipulate before outputting."
+        "description": "Component piece of a template literal."
     },
     "AssignmentProperty": {
         "inline": "Assignment Property",
         "title": "Assignment Property",
         "linkText": "Working with Assignment Property",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring",
+        "description": "Property to variable assignment pair in an object destructuring."
     },
     "ObjectPattern": {
         "inline": "Object Pattern",
         "title": "Object Pattern",
         "linkText": "Working with Object Pattern",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring",
+        "description": "The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from an object, into distinct variables."
     },
     "ArrayPattern": {
         "inline": "Array Pattern",
         "title": "Array Pattern",
         "linkText": "Working with Array Pattern",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#array_destructuring",
+        "description": "The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from an array, into distinct variables."
     },
     "RestElement": {
         "inline": "Rest Element",
@@ -404,8 +416,8 @@
         "inline": "Assignment Pattern",
         "title": "Assignment Pattern",
         "linkText": "Working with Assignment Pattern",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters",
+        "description": "Assign default values to parameters of a function of properties of an object."
     },
     "Class": {
         "inline": "Class",
@@ -446,15 +458,15 @@
         "inline": "Meta Property",
         "title": "Meta Property",
         "linkText": "Working with Meta Property",
-        "link": "TODO",
-        "description": ""
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new.target",
+        "description": "The new.target pseudo-property lets you detect whether a function or constructor was called using the new operator. In constructors and functions invoked using the new operator, new.target returns a reference to the constructor or function. In normal function calls, new.target is undefined."
     },
     "ModuleDeclaration": {
         "inline": "Module Declaration",
         "title": "Module Declaration",
         "linkText": "Working with Module Declaration",
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
-        "description": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules"
+        "description": "Declare the usage of a module."
     },
     "ModuleSpecifier": {
         "inline": "Module Specifier",
