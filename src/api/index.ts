@@ -12,6 +12,16 @@ export enum Error {
     NO_NODE_FOUND = 'no_node_found',
 }
 
+export interface Settings {
+    ecmaversion?: any;
+    sourcetype?: any;
+    allowreserved?: boolean;
+    allowreturnoutsidefunction?: boolean;
+    allowimportexporteverywhere?: boolean;
+    allowawaitoutsidefunction?: boolean;
+    allowhashbang?: boolean;
+}
+
 export interface Result {
     output: string | Error;
     code: string;
@@ -20,22 +30,23 @@ export interface Result {
 
 export type ParentNode = Record<string, acorn.Node[]> & acorn.Node;
 
-// TODO add logic to tell a user what is more specific than what they selected when they highlight
-
-// TODO don't return any but rather a proper type
-export function grok(src: string, selection: Selection, isHighlighting: boolean): Result {
+export function grok(src: string, selection: Selection, isHighlighting: boolean, acorn_settings: Settings): Result {
     // Parse the source code into an AST
-    // TODO add more options?
     const opts: acorn.Options = {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
+        ecmaVersion: acorn_settings.ecmaversion,
+        sourceType: acorn_settings.sourcetype,
+        allowReserved: acorn_settings.allowreserved,
+        allowReturnOutsideFunction: acorn_settings.allowreturnoutsidefunction,
+        allowImportExportEverywhere: acorn_settings.allowimportexporteverywhere,
+        allowAwaitOutsideFunction: acorn_settings.allowawaitoutsidefunction,
+        allowHashBang: acorn_settings.allowhashbang,
     };
+
     let ast: acorn.Node = {} as acorn.Node;
     try {
         ast = acorn.parse(src, opts);
     } catch (error) {
         // TODO return something else
-        console.log('Failed to parse AST.');
         return { output: Error.PARSE_FAILED, code: '', children: [] };
     }
 
@@ -54,8 +65,6 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean)
             }
         }
     } catch (error) {
-        // TODO return something else
-        console.log('Failed to walk AST.');
         return { output: Error.WALK_FAILED, code: '', children: [] };
     }
 
@@ -93,6 +102,5 @@ function getChildren(found: walk.Found<ParentNode>): acorn.Node[] {
 }
 
 export function isNode(node: any): node is acorn.Node {
-    console.log(`${node && node.type && node.start && node.end}`);
     return node && node.type && node.start && node.end;
 }

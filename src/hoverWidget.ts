@@ -39,7 +39,7 @@ export const getWidgetContent = (result: Result) => {
             content.push(children);
         }
     }
-
+    console.log(content);
     return {
         contents: content,
     };
