@@ -192,7 +192,13 @@
         "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
         "description": "The var statement declares a function-scoped or globally-scoped variable, optionally initializing it to a value."
     },
-    "Expression": { "inline": "Expression", "title": "Expression", "linkText": "Working with Expression", "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators", "description": "TODO" },
+    "Expression": {
+        "inline": "Expression",
+        "title": "Expression",
+        "linkText": "Working with Expression",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators",
+        "description": "TODO"
+    },
     "ThisExpression": {
         "inline": "This Expression",
         "title": "This Expression",
@@ -292,7 +298,13 @@
         "link": "TODO",
         "description": ""
     },
-    "Pattern": { "inline": "Pattern", "title": "Pattern", "linkText": "Working with Pattern", "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions", "description": "Regular expressions are patterns used to match character combinations in strings. In JavaScript, regular expressions are also objects. These patterns are used with the exec() and test() methods of RegExp, and with the match(), matchAll(), replace(), replaceAll(), search(), and split() methods of String. This chapter describes JavaScript regular expressions." },
+    "Pattern": {
+        "inline": "Pattern",
+        "title": "Pattern",
+        "linkText": "Working with Pattern",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions",
+        "description": "Regular expressions are patterns used to match character combinations in strings. In JavaScript, regular expressions are also objects. These patterns are used with the exec() and test() methods of RegExp, and with the match(), matchAll(), replace(), replaceAll(), search(), and split() methods of String. This chapter describes JavaScript regular expressions."
+    },
     "ForOfStatement": {
         "inline": "For Of Statement",
         "title": "For Of Statement",
@@ -378,8 +390,20 @@
         "link": "TODO",
         "description": ""
     },
-    "Class": { "inline": "Class", "title": "Class", "linkText": "Working with Class", "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes", "description": "Classes are a template for creating objects. They encapsulate data with code to work on that data. Classes in JS are built on prototypes but also have some syntax and semantics that are not shared with ES5 classalike semantics." },
-    "ClassBody": { "inline": "Class Body", "title": "Class Body", "linkText": "Working with Class Body", "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#class_body_and_method_definitions", "description": "The body of a class is the part that is in curly brackets {}. This is where you define class members, such as methods or constructor." },
+    "Class": {
+        "inline": "Class",
+        "title": "Class",
+        "linkText": "Working with Class",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+        "description": "Classes are a template for creating objects. They encapsulate data with code to work on that data. Classes in JS are built on prototypes but also have some syntax and semantics that are not shared with ES5 classalike semantics."
+    },
+    "ClassBody": {
+        "inline": "Class Body",
+        "title": "Class Body",
+        "linkText": "Working with Class Body",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#class_body_and_method_definitions",
+        "description": "The body of a class is the part that is in curly brackets {}. This is where you define class members, such as methods or constructor."
+    },
     "MethodDefinition": {
         "inline": "Method Definition",
         "title": "Method Definition",
