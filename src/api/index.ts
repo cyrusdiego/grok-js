@@ -13,15 +13,14 @@ export enum Error {
 }
 
 export interface Settings {
-    ecmaversion?: any,
-    sourcetype?: any,
-    allowreserved?: boolean,
-    allowreturnoutsidefunction?: boolean,
-    allowimportexporteverywhere?: boolean,
-    allowawaitoutsidefunction?: boolean,
-    allowhashbang?:boolean
+    ecmaversion?: any;
+    sourcetype?: any;
+    allowreserved?: boolean;
+    allowreturnoutsidefunction?: boolean;
+    allowimportexporteverywhere?: boolean;
+    allowawaitoutsidefunction?: boolean;
+    allowhashbang?: boolean;
 }
-
 
 export interface Result {
     output: string | Error;
@@ -41,9 +40,9 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean,
         allowReturnOutsideFunction: acorn_settings.allowreturnoutsidefunction,
         allowImportExportEverywhere: acorn_settings.allowimportexporteverywhere,
         allowAwaitOutsideFunction: acorn_settings.allowawaitoutsidefunction,
-        allowHashBang: acorn_settings.allowhashbang
+        allowHashBang: acorn_settings.allowhashbang,
     };
-    
+
     let ast: acorn.Node = {} as acorn.Node;
     try {
         ast = acorn.parse(src, opts);

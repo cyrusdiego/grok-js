@@ -35,4 +35,3 @@ console.log(
         return 1;
     })()
 );
-
