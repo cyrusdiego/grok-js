@@ -9,15 +9,24 @@ import inlineDecoratorType from './inlineDecoratorType';
 import { languages, TextDocument, Position, ExtensionContext, CancellationToken, MarkdownString } from 'vscode';
 import { hoverWidgetContent } from './hoverWidget';
 
-// this method is called when your extension is activated
+
+function get_offset (pos: vscode.Position, lines: string[]) {
+    let offset = 0;
+    for (let i = 0; i < pos.line; i++) {
+        offset += lines[i].length + 1
+    }
+
+    return offset + pos.character;
+}
+
+
+ // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
     // Global state to store what is currently highlighted
     let startOffset = 0;
     let endOffset = 0;
     let single_click = false
-
-    let orange = vscode.window.createOutputChannel("Orange");
     
     const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
 
@@ -44,7 +53,7 @@ export function activate(context: vscode.ExtensionContext) {
         const highlightRange = new vscode.Range(start, end);
         const highlightedText = editor.document.getText(highlightRange);
 
-        startOffset = editor.document.getText().indexOf(highlightedText);
+        startOffset = get_offset(start, lines)
         endOffset = startOffset + highlightedText.length;
 
         // Get classification from AST
