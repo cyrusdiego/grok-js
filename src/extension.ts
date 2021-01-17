@@ -4,7 +4,7 @@
  * ------------------------------------------------------------------------------------------ */
 
 import * as vscode from 'vscode';
-import { grok } from './api';
+import { grok, Result, Settings } from './api';
 import inlineDecoratorType from './inlineDecoratorType';
 import { languages, TextDocument, Position, ExtensionContext, CancellationToken, MarkdownString, Selection, TextEditor } from 'vscode';
 import { hoverWidgetContent, showHoverWidget } from './hoverWidget';
@@ -22,10 +22,10 @@ function get_offset(pos: vscode.Position, lines: string[]) {
 type State = {
     startOffset: number;
     endOffset: number;
-    grokClassification: string;
+    grokClassification: Result;
 };
 
-function decorateInline(activeEditor: TextEditor): State {
+function decorateInline(activeEditor: TextEditor, settings: Settings): State {
     const selection = activeEditor.selection;
     const text = activeEditor.document.getText();
     const lines = text.split('\n');
@@ -44,14 +44,14 @@ function decorateInline(activeEditor: TextEditor): State {
     const endOffset = startOffset + highlightedText.length;
 
     // Get classification from AST
-    const grokClassification = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset);
+    const grokClassification = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset, settings);
 
     decorations.push({
         // Display decorator for the entire line
         range: new vscode.Range(start.line, 0, end.line, lines[end.line].length),
         renderOptions: {
             after: {
-                contentText: getDocItem(grokClassification).inline,
+                contentText: getDocItem(grokClassification.output).inline,
             },
         },
     });
@@ -60,35 +60,58 @@ function decorateInline(activeEditor: TextEditor): State {
     return { startOffset, endOffset, grokClassification };
 }
 
+function get_settings(): Settings {
+    const config = vscode.workspace.getConfiguration();
+
+    return {
+        ecmaversion: config.get('grokJS.ecmaVersion'),
+        sourcetype: config.get('grokJS.sourceType'),
+        allowreserved: config.get('grokJS.allowReserved'),
+        allowreturnoutsidefunction: config.get('grokJS.allowReturnOutsideFunction'),
+        allowimportexporteverywhere: config.get('grokJS.allowImportExportEverywhere'),
+        allowawaitoutsidefunction: config.get('grokJS.allowAwaitOutsideFunction'),
+        allowhashbang: config.get('grokJS.allowHashBang'),
+    };
+}
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
     // Global state to store what is currently highlighted
     let startOffset = 0;
     let endOffset = 0;
-    let grokClassification = '';
+    let settings = get_settings();
+    let grokClassification = { output: '', code: '' };
 
-    // On startup
+    // On configurations change
+    vscode.workspace.onDidChangeConfiguration((event) => {
+        settings = get_settings();
+        if (editor !== undefined && editor.document.fileName.endsWith('.js')) {
+            ({ startOffset, endOffset, grokClassification } = decorateInline(editor, settings));
+        }
+    });
+
+    // On start-up
     const editor = vscode.window.activeTextEditor;
     if (editor !== undefined && editor.document.fileName.endsWith('.js')) {
-        ({ startOffset, endOffset, grokClassification } = decorateInline(editor));
+        ({ startOffset, endOffset, grokClassification } = decorateInline(editor, settings));
     }
 
     // On highlight changes
     const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((_) => {
         const editor = vscode.window.activeTextEditor;
         if (editor !== undefined && editor.document.fileName.endsWith('.js')) {
-            ({ startOffset, endOffset, grokClassification } = decorateInline(editor));
+            ({ startOffset, endOffset, grokClassification } = decorateInline(editor, settings));
         }
     });
 
     const hoverRegistration = languages.registerHoverProvider('javascript', {
         provideHover(document: TextDocument, position: Position, token: CancellationToken) {
             const hoverOffset = document.offsetAt(position);
-            if (startOffset <= hoverOffset && hoverOffset <= endOffset && showHoverWidget(grokClassification)) {
-                const { title, linkText, link, description } = getDocItem(grokClassification);
+            if (startOffset <= hoverOffset && hoverOffset <= endOffset && showHoverWidget(grokClassification.output)) {
+                const { title, linkText, link, description } = getDocItem(grokClassification.output);
 
-                return hoverWidgetContent(title, linkText, link, description);
+                return hoverWidgetContent(title, linkText, link, description, grokClassification.code);
             }
         },
     });
