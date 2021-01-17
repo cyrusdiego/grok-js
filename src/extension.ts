@@ -70,14 +70,14 @@ export function activate(context: vscode.ExtensionContext) {
 
     // On startup
     const editor = vscode.window.activeTextEditor;
-    if (editor !== undefined) {
+    if (editor !== undefined && editor.document.fileName.endsWith('.js')) {
         ({ startOffset, endOffset, grokClassification } = decorateInline(editor));
     }
 
     // On highlight changes
     const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((_) => {
         const editor = vscode.window.activeTextEditor;
-        if (editor !== undefined) {
+        if (editor !== undefined && editor.document.fileName.endsWith('.js')) {
             ({ startOffset, endOffset, grokClassification } = decorateInline(editor));
         }
     });
