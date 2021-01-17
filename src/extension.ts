@@ -4,10 +4,12 @@
  * ------------------------------------------------------------------------------------------ */
 
 import * as vscode from 'vscode';
-import { grok } from './api';
+import { grok, Settings } from './api';
 import inlineDecoratorType from './inlineDecoratorType';
 import { languages, TextDocument, Position, ExtensionContext, CancellationToken, MarkdownString } from 'vscode';
 import { hoverWidgetContent } from './hoverWidget';
+
+
 
 
 function get_offset (pos: vscode.Position, lines: string[]) {
@@ -19,6 +21,18 @@ function get_offset (pos: vscode.Position, lines: string[]) {
     return offset + pos.character;
 }
 
+function get_settings () : Settings {
+    const config = vscode.workspace.getConfiguration ()
+    return {
+        ecmaversion: config.get('grokJS.ecmaVersion'),
+        sourcetype: config.get('grokJS.sourceType'),
+        allowreserved: config.get('grokJS.allowReserved'),
+        allowreturnoutsidefunction: config.get('grokJS.allowReturnOutsideFunction'),
+        allowimportexporteverywhere: config.get('grokJS.allowImportExportEverywhere'),
+        allowawaitoutsidefunction: config.get('grokJS.allowAwaitOutsideFunction'),
+        allowhashbang: config.get('grokJS.allowHashBang'),
+    }
+}
 
  // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -27,6 +41,11 @@ export function activate(context: vscode.ExtensionContext) {
     let startOffset = 0;
     let endOffset = 0;
     let single_click = false
+    let settings = get_settings();
+
+    vscode.workspace.onDidChangeConfiguration(event => {
+        settings = get_settings();
+    })
     
     const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
 
@@ -58,7 +77,7 @@ export function activate(context: vscode.ExtensionContext) {
         
 
         // Get classification from AST
-        const result = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset);
+        const result = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset, settings);
 
         if (single_click) end = start
         decorations.push({
