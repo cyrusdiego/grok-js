@@ -12,7 +12,10 @@ export enum Error {
     NO_NODE_FOUND = 'no_node_found',
 }
 
-export type Result = string | Error;
+export interface Result {
+    output: string | Error;
+    code: string;
+}
 
 // TODO add logic to tell a user what is more specific than what they selected when they highlight
 
@@ -30,7 +33,7 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean)
     } catch (error) {
         // TODO return something else
         console.log('Failed to parse AST.');
-        return Error.PARSE_FAILED;
+        return { output: Error.PARSE_FAILED, code: '' };
     }
 
     let found: walk.Found<acorn.Node> | undefined;
@@ -44,16 +47,22 @@ export function grok(src: string, selection: Selection, isHighlighting: boolean)
             // Not highlighting anything so find the least specific node after selection.start
             found = walk.findNodeAfter(ast, selection.start, anyNode);
             if (found && found.node && found.node.start > selection.end) {
-                return Error.NO_NODE_FOUND;
+                return { output: Error.NO_NODE_FOUND, code: '' };
             }
         }
     } catch (error) {
         // TODO return something else
         console.log('Failed to walk AST.');
-        return Error.WALK_FAILED;
+        return { output: Error.WALK_FAILED, code: '' };
     }
 
-    return found?.node?.type || Error.NO_NODE_FOUND;
+    if (!found || !found.node) {
+        return { output: Error.NO_NODE_FOUND, code: '' };
+    }
+
+    const finalNode = found.node;
+    const code: string = src.substring(finalNode.start, finalNode.end);
+    return { output: finalNode.type || Error.NO_NODE_FOUND, code };
 }
 
 function anyNode(type: any, node: any): boolean {

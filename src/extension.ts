@@ -26,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
     let startOffset = 0;
     let endOffset = 0;
     let single_click = false;
-    let grokClassification = '';
+    let grokClassification = { output: '', code: '' };
 
     const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
         if (selectionEvent?.kind === undefined) return;
@@ -64,7 +64,7 @@ export function activate(context: vscode.ExtensionContext) {
             range: new vscode.Range(start.line, 0, end.line, lines[end.line].length),
             renderOptions: {
                 after: {
-                    contentText: getDocItem(grokClassification).inline,
+                    contentText: getDocItem(grokClassification.output).inline,
                 },
             },
         });
@@ -75,10 +75,10 @@ export function activate(context: vscode.ExtensionContext) {
     const hoverRegistration = languages.registerHoverProvider('javascript', {
         provideHover(document: TextDocument, position: Position, token: CancellationToken) {
             const hoverOffset = document.offsetAt(position);
-            if (startOffset <= hoverOffset && hoverOffset <= endOffset && showHoverWidget(grokClassification)) {
-                const { title, linkText, link, description } = getDocItem(grokClassification);
+            if (startOffset <= hoverOffset && hoverOffset <= endOffset && showHoverWidget(grokClassification.output)) {
+                const { title, linkText, link, description } = getDocItem(grokClassification.output);
 
-                return hoverWidgetContent(title, linkText, link, description);
+                return hoverWidgetContent(title, linkText, link, description, grokClassification.code);
             }
         },
     });
