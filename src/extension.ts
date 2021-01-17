@@ -10,14 +10,29 @@ import { languages, TextDocument, Position, ExtensionContext, CancellationToken,
 import { hoverWidgetContent } from './hoverWidget';
 import { getDocItem } from './docs';
 
-// this method is called when your extension is activated
+
+function get_offset (pos: vscode.Position, lines: string[]) {
+    let offset = 0;
+    for (let i = 0; i < pos.line; i++) {
+        offset += lines[i].length + 1
+    }
+
+    return offset + pos.character;
+}
+
+
+ // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
     // Global state to store what is currently highlighted
     let startOffset = 0;
     let endOffset = 0;
-
+    let single_click = false
+    
     const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
+
+        if (selectionEvent?.kind === undefined) return 
+
         const editor = selectionEvent.textEditor;
 
         const decorations: vscode.DecorationOptions[] = [];
@@ -30,11 +45,16 @@ export function activate(context: vscode.ExtensionContext) {
         let start = new vscode.Position(selection.start.line, editor.selection.start.character);
         let end = new vscode.Position(selection.end.line, editor.selection.end.character);
 
+        if (start.character === end.character && start.line === end.line) {
+            start = new vscode.Position(start.line, 0);
+            end = new vscode.Position(start.line, lines[start.line].length);
+        }
+        
         // Calculate offsets
         const highlightRange = new vscode.Range(start, end);
         const highlightedText = editor.document.getText(highlightRange);
 
-        startOffset = editor.document.getText().indexOf(highlightedText);
+        startOffset = get_offset(start, lines)
         endOffset = startOffset + highlightedText.length;
 
         // Get classification from AST
@@ -42,6 +62,7 @@ export function activate(context: vscode.ExtensionContext) {
         // TODO handle errors
         const inlineOutput = getDocItem(result);
 
+        if (single_click) end = start
         decorations.push({
             // Display decorator for the entire line
             range: new vscode.Range(start.line, 0, end.line, lines[end.line].length),
