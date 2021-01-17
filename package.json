@@ -10,7 +10,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:grok-js.grokJS"
+    "onLanguage:javascript"
   ],
   "main": "./out/extension.js",
   "contributes": {
