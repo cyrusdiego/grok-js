@@ -4,7 +4,7 @@
  * ------------------------------------------------------------------------------------------ */
 
 import * as path from 'path';
-import { workspace, ExtensionContext, window } from 'vscode';
+import { workspace, ExtensionContext, window, Range, Position } from 'vscode';
 
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
 
@@ -17,20 +17,19 @@ export function activate(context: ExtensionContext) {
 
 		if (e.kind?.toString() === undefined) return;
 		
-		let start = e.textEditor.selection.start.character
+		let start = new Position(e.textEditor.selection.start.line, e.textEditor.selection.start.character)
 
-		let end = e.textEditor.selection.end.character
+		let end = new Position(e.textEditor.selection.end.line, e.textEditor.selection.end.character)
 
-		// for line click, not highlighting
-		if (start === end) {
-			let current_line = window.activeTextEditor?.selection.active.line == undefined ? "0" : window.activeTextEditor?.selection.active.line.toString()
-			outputChannel.appendLine(current_line)
+		if (start.line === end.line && start.character == end.character) {
+			outputChannel.appendLine(e.textEditor.selection.start.line.toString())
 			return
 		}
-	
-		let document = e.textEditor.document.getText();
-		outputChannel.appendLine(document.substring(start, end))
+		
+		let range = new Range(start, end);
+		let highlight =  e.textEditor.document.getText(range);
 
+		outputChannel.appendLine(highlight);
 		// TODO: Add delay to ensue click or highlight
 	});
 	
@@ -68,7 +67,7 @@ export function activate(context: ExtensionContext) {
 
     // Start the client. This will also launch the server
 	client.start();
-	context.subscriptions.push(outputChannel);
+	context.subscriptions.push();
 }
 
 export function deactivate(): Thenable<void> | undefined {
