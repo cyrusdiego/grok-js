@@ -9,6 +9,7 @@ import inlineDecorator from './inlineDecorator';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+	let orange = vscode.window.createOutputChannel("Orange");
     const decorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
         const editor = selectionEvent.textEditor;
 
@@ -35,12 +36,18 @@ export function activate(context: vscode.ExtensionContext) {
 			let start = new vscode.Position(editor.selection.start.line, editor.selection.start.character)
 			let end = new vscode.Position(editor.selection.end.line, editor.selection.end.character)
 
+			if (start.character === end.character && start.line === end.line) {
+				start = new vscode.Position(start.line, 0);
+				end = new vscode.Position(start.line + 1,0);
+			}
+
 			// get offsets
 			let range = new vscode.Range(start, end);
 			let highlight =  editor.document.getText(range);
 			let start_offset = editor.document.getText().indexOf(highlight)
-			let end_offset = start_offset + highlight.length
-
+			let end_offset = start_offset + highlight.length - 1;
+			
+			orange.appendLine(editor.document.getText().substr(start_offset, end_offset));
             decorations.push({
                 range: new vscode.Range(firstLine, 0, firstLine, lines[firstLine].length),
                 renderOptions: {
