@@ -1,14 +1,11 @@
-/* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
-
 import * as vscode from 'vscode';
+import { languages, Position, TextDocument } from 'vscode';
 import { grok, Result, Settings } from './api';
-import inlineDecoratorType from './inlineDecoratorType';
-import { languages, TextDocument, Position, ExtensionContext, CancellationToken, MarkdownString, Selection, TextEditor } from 'vscode';
-import { hoverWidgetContent, showHoverWidget } from './hoverWidget';
 import { getDocItem } from './docs';
+import { getWidgetContent, showHoverWidget } from './hoverWidget';
+import inlineDecoratorType from './inlineDecoratorType';
+
+let editor: vscode.TextEditor;
 
 /**
  * Calculates a multiline string offset from a {line: number, column: number} data structure.
@@ -22,6 +19,19 @@ function getOffset(pos: vscode.Position, lines: string[]): number {
     }
 
     return offset + pos.character;
+}
+
+export function getCodeSnippet(start: number, end: number): string {
+    const activeEditor = vscode.window.activeTextEditor;
+    if (!activeEditor) {
+        return '';
+    }
+
+    const startPos = activeEditor.document.positionAt(start);
+    const endPos = activeEditor.document.positionAt(end);
+
+    const highlightRange = new vscode.Range(startPos, endPos);
+    return activeEditor.document.getText(highlightRange);
 }
 
 /**
@@ -44,7 +54,7 @@ function decorateInline(): State {
 
     // Do not analyze if there is no file open or file open is not a javascript file
     if (activeEditor === undefined || !activeEditor.document.fileName.endsWith('.js')) {
-        return { startOffset: 0, endOffset: 0, grokClassification: { output: '', code: '' } };
+        return { startOffset: 0, endOffset: 0, grokClassification: { output: '', code: '', children: [] } };
     }
 
     const settings = getSettings();
@@ -111,7 +121,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Global state to store what is currently highlighted
     let startOffset = 0;
     let endOffset = 0;
-    let grokClassification = { output: '', code: '' };
+    let grokClassification: Result = { output: '', code: '', children: [] };
 
     // On start-up
     ({ startOffset, endOffset, grokClassification } = decorateInline());
@@ -122,17 +132,16 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     // On highlight changes
-    const inlineDecoratorHighlight = vscode.window.onDidChangeTextEditorSelection((_) => {
+    const inlineDecoratorHighlight = vscode.window.onDidChangeTextEditorSelection(() => {
         ({ startOffset, endOffset, grokClassification } = decorateInline());
     });
 
     const hoverRegistration = languages.registerHoverProvider('javascript', {
-        provideHover(document: TextDocument, position: Position, token: CancellationToken) {
+        provideHover(document: TextDocument, position: Position, _) {
             const hoverOffset = document.offsetAt(position);
             if (startOffset <= hoverOffset && hoverOffset <= endOffset && showHoverWidget(grokClassification.output)) {
-                const { title, linkText, link, description } = getDocItem(grokClassification.output);
-
-                return hoverWidgetContent(title, linkText, link, description, grokClassification.code);
+                const widgetContent = getWidgetContent(grokClassification);
+                return widgetContent;
             }
         },
     });
