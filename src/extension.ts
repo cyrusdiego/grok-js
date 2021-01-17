@@ -6,10 +6,16 @@
 import * as vscode from 'vscode';
 import { grok } from './api';
 import inlineDecoratorType from './inlineDecoratorType';
+import { languages, TextDocument, Position, ExtensionContext, CancellationToken, MarkdownString } from 'vscode';
+import { hoverWidgetContent } from './hoverWidget';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+    // Global state to store what is currently highlighted
+    let startOffset = 0;
+    let endOffset = 0;
+
     const inlineDecorator = vscode.window.onDidChangeTextEditorSelection((selectionEvent) => {
         const editor = selectionEvent.textEditor;
 
@@ -17,48 +23,58 @@ export function activate(context: vscode.ExtensionContext) {
         const text = editor.document.getText();
 
         const lines = text.split('\n');
+        const selection = selectionEvent.selections[0]; // TODO: Verify if this will ever fail
 
-        for (const selection of selectionEvent.selections) {
-            // Get start and end position
-            let start = new vscode.Position(selection.start.line, editor.selection.start.character);
-            let end = new vscode.Position(selection.end.line, editor.selection.end.character);
+        // Get start and end position
+        let start = new vscode.Position(selection.start.line, editor.selection.start.character);
+        let end = new vscode.Position(selection.end.line, editor.selection.end.character);
 
-            // Calculate offsets
-            const highlightRange = new vscode.Range(start, end);
-            const highlightedText = editor.document.getText(highlightRange);
+        // Calculate offsets
+        const highlightRange = new vscode.Range(start, end);
+        const highlightedText = editor.document.getText(highlightRange);
 
-            const startOffset = editor.document.getText().indexOf(highlightedText);
-            const endOffset = startOffset + highlightedText.length;
+        startOffset = editor.document.getText().indexOf(highlightedText);
+        endOffset = startOffset + highlightedText.length;
 
-            // Get classification from AST
-            const result = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset);
+        // Get classification from AST
+        const result = grok(text, { start: startOffset, end: endOffset }, startOffset === endOffset);
 
-            decorations.push({
-                // Display decorator for the entire line
-                range: new vscode.Range(start.line, 0, end.line, lines[end.line].length),
-                renderOptions: {
-                    after: {
-                        contentText: result,
-                    },
+        decorations.push({
+            // Display decorator for the entire line
+            range: new vscode.Range(start.line, 0, end.line, lines[end.line].length),
+            renderOptions: {
+                after: {
+                    contentText: result,
                 },
-            });
-        }
+            },
+        });
 
         editor.setDecorations(inlineDecoratorType, decorations);
     });
 
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with registerCommand
-    // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('grok-js.helloWorld', () => {
-        // The code you place here will be executed every time your command is executed
+    const hoverRegistration = languages.registerHoverProvider('javascript', {
+        provideHover(document: TextDocument, position: Position, token: CancellationToken) {
+            const hoverOffset = document.offsetAt(position);
+            if (startOffset <= hoverOffset && hoverOffset <= endOffset) {
+                const range = document.getWordRangeAtPosition(position);
+                const word = document.getText(range);
+                const title = 'Object instantiation';
+                const linkText = 'Working with Objects';
+                const link = 'https://github.com/cyrusdiego/grok-js/tree/text-decorator';
+                const blob = `JavaScript is designed on a simple object-based paradigm. 
+                                An object is a collection of properties, and a property is an association between a name (or key)
+                                and a value. A property's value can be a function, in which case the property is known as a method.
+                                In addition to objects that are predefined in the browser, you can define your own objects.
+                                This chapter describes how to use objects, properties, functions, and methods, and how to
+                                create your own objects.`;
 
-        // Display a message box to the user
-        vscode.window.showInformationMessage('Hello World from grok-js!');
+                return hoverWidgetContent(title, linkText, link, blob);
+            }
+        },
     });
 
-    context.subscriptions.push(disposable);
     context.subscriptions.push(inlineDecorator);
+    context.subscriptions.push(hoverRegistration);
 }
 
 export function deactivate() {}
